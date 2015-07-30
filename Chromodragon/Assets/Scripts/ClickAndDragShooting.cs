@@ -46,7 +46,10 @@ public class ClickAndDragShooting : MonoBehaviour {
 
 		//snap draggable back and shoot
 		transform.position = initialPosition;
-		shoot (diff * velocityMultiplier);
+
+		if (diff.y > 0) {
+			shoot (diff * velocityMultiplier);
+		}
 	}
 
 	//shoot
