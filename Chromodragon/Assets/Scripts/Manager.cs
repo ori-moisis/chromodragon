@@ -20,7 +20,7 @@ public class Manager : MonoBehaviour {
                         GameObject newCreature = Instantiate(CreaturePrefab);
                         float newX = x - Mathf.Cos(Mathf.PI/3)*( y + z);
                         float newZ = Mathf.Sin(Mathf.PI / 3) * (y - z);
-                        newCreature.transform.position = new Vector3(newX, newZ, 0);
+                        newCreature.transform.position = new Vector3(newX, 0.25f, newZ);
                     }
                 }
             }
