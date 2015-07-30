@@ -61,7 +61,6 @@ public class Lobby : MonoBehaviour {
 
     void EnoughPlayers()
     {
-        Debug.Log("here");
         Application.LoadLevel("Game");
     }
 
