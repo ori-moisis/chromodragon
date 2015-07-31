@@ -8,6 +8,7 @@ public class Manager : MonoBehaviour {
 
     public GameObject CreaturePrefab;
     public GameObject hexTilePrefab;
+public Vector3[] cameraPositions;
     public GameObject creatures;
     public GameObject tiles;
 
@@ -26,7 +27,13 @@ public class Manager : MonoBehaviour {
             instance = this;
         }
         initWorld(hexRadius);
+	if (PhotonNetwork.inRoom)
+        {
+            Camera.main.transform.position = cameraPositions[PhotonNetwork.player.ID - 1];
+            Camera.main.transform.rotation = Quaternion.LookRotation(-Camera.main.transform.position, new Vector3(0, 1, 0));
+        }
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
