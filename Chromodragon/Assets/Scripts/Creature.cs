@@ -45,7 +45,7 @@ public class Creature : MonoBehaviour
         
 	}
 
-	public void SpitColor (GameColors color)
+    public void SpitColor(Shot color)
 	{
 		var neighbors = Manager.instance.getNeighbours (this);
 
@@ -96,7 +96,7 @@ public class Creature : MonoBehaviour
 	{
 		switch (shot.shotParams.type) {
 		case Shot.ShotTypes.ColorShot:
-			EatColor (shot.shotParams.color);
+			EatColor (shot);
 			break;
 		//case Shot.ShotTypes.SpecialShot:
 			// TODO: Special shot

@@ -162,7 +162,6 @@ public class Manager : MonoBehaviour
 						newCreature.transform.parent = creatures.transform;
                         newCreature.transform.position = new Vector3(newX, newY, newZ);
                         Debug.Log(newZ);
-                        newCreature.SetLayerOrders((int)Mathf.Abs(20 - 2*Mathf.Abs(5+newZ) ));
 
 						// add creature to data structures
 						coordToCreature [x, y, z] = newCreature;
