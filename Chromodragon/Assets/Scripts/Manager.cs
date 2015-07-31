@@ -10,7 +10,6 @@ public class Manager : MonoBehaviour
 
 	public Creature CreaturePrefab;
 	public GameObject hexTilePrefab;
-	public Vector3[] cameraPositions;
 	public GameObject creatures;
 	public GameObject tiles;
 
@@ -48,18 +47,19 @@ public class Manager : MonoBehaviour
 			instance = this;
 		}
 		initWorld (hexRadius);
-		if (PhotonNetwork.inRoom) {
-			Camera.main.transform.position = cameraPositions [PhotonNetwork.player.ID - 1];
-			Camera.main.transform.rotation = Quaternion.LookRotation (-Camera.main.transform.position, new Vector3 (0, 1, 0));
-            setCurrentTurnImgColor(true);
-		}
-		nextShotIndex = 0;
-		nextShots = new Shot.ShotParams[3];
-		for (int i = 0; i < nextShots.Length; ++i)
+		if (PhotonNetwork.inRoom)
 		{
-			nextShots[i] = new Shot.ShotParams();
+			Vector3 pos = Quaternion.Euler(0, 120 * (PhotonNetwork.player.ID - 1), 0) * Camera.main.transform.position;
+			Camera.main.transform.position = pos;
+			Camera.main.transform.rotation = Quaternion.LookRotation(-Camera.main.transform.position, Vector3.up);
+			setCurrentTurnImgColor(true);
 		}
 		nextBallsWidgetScript = nextBallsWidget.GetComponent<NextBallsWidget> ();
+        nextShots = new Shot.ShotParams[3];
+        for (int i = 0; i < nextShots.Length; ++i)
+        {
+            nextShots[i] = new Shot.ShotParams();
+        }
 	}
 
 	
@@ -101,7 +101,7 @@ public class Manager : MonoBehaviour
 
     int currentTurnIndex()
     {
-        return (((currentTurn - PhotonNetwork.player.ID + 1) % 3) + 3) % 3;
+        return (((PhotonNetwork.player.ID - currentTurn - 1) % 3) + 3) % 3;
     }
 
     void setCurrentTurnImgColor(bool isSet)
@@ -176,9 +176,9 @@ public class Manager : MonoBehaviour
 				for (int z = 0; z <= gridRadius; ++z) {
 					if (x == 0 || y == 0 || z == 0) {
 						// Calculate world coordinates from cube-hexagon coordinates:
-						float newX = 1.05f* (x - Mathf.Cos (Mathf.PI / 3) * (y + z));
+						float newX = (x - Mathf.Cos (Mathf.PI / 3) * (y + z));
 						float newY = Random.value * 0.15f;
-						float newZ = 0.8f * (Mathf.Sin (Mathf.PI / 3) * (y - z));
+						float newZ = (Mathf.Sin (Mathf.PI / 3) * (y - z));
 
 						// Create a new creature:
 						Creature newCreature = Instantiate (CreaturePrefab)as Creature;

@@ -616,10 +616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sligshot: {fileID: 126890, guid: 0c33b5ef2cb20b74c8558a4d0353cab3, type: 2}
   slingshotName: Slingshot
-  positions:
-  - {x: 0, y: 1, z: -5}
-  - {x: 4.32999992, y: 1, z: 2.5}
-  - {x: -4.32999992, y: 1, z: 2.5}
+  slingshotPos: {x: 0, y: 1, z: -5}
 --- !u!4 &713824858
 Transform:
   m_ObjectHideFlags: 0
@@ -1464,7 +1461,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1666586355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8297d116a752d8d459fb4c68dfb1fd19, type: 3}
+  m_Script: {fileID: 11500000, guid: e3dd7d47fc118bd4a97b192bb20ab445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   topBall: {fileID: 1802308710}
