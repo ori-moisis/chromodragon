@@ -32,10 +32,12 @@ public class Creature : MonoBehaviour
 
 	public void EatColor (GameColors color)
 	{
+        GameColors prevColor = currentColor;
 		if (currentColor.IsRivalColor (color)) {
 //			SpitColor (color);
 		} else {
 			nextColor = currentColor.Add (color);
+            Manager.instance.updateScore(prevColor, nextColor);
 			animator.SetTrigger (EAT_TRIGGER);
 		}
         

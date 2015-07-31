@@ -24,7 +24,7 @@ public class Manager : MonoBehaviour
 
 	int numCreatures = 0;
 
-	public int hexRadius = 3;
+	public int hexRadius = 2;  // CHANGE IN GUI, here doesn't matter :(
 	public int currentTurn = 0;
 
 	// Map hexagon-cube coordinates to creatures:
@@ -84,7 +84,7 @@ public class Manager : MonoBehaviour
 	}
 
 
-	void updateScore (GameColors prevColor, GameColors newColor)
+	public void updateScore (GameColors prevColor, GameColors newColor)
 	{
 		if (prevColor == GameColors.Green) {
 			numGreen--;
@@ -102,9 +102,13 @@ public class Manager : MonoBehaviour
 			numOrange++;
 		}
 
-		greenScoreSlider.value = numGreen / numCreatures;
-		purpleScoreSlider.value = numPurple / numCreatures;
-		orangeScoreSlider.value = numOrange / numCreatures;
+		greenScoreSlider.value = (float)(numGreen) / numCreatures;
+		purpleScoreSlider.value = (float)(numPurple) / numCreatures;
+		orangeScoreSlider.value = (float)(numOrange) / numCreatures;
+
+        Debug.Log(greenScoreSlider.value);
+        Debug.Log(purpleScoreSlider.value);
+        Debug.Log(orangeScoreSlider.value);
 	}
 
 
