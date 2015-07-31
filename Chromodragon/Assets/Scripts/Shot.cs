@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShotBehaviour : MonoBehaviour {
+public class Shot : MonoBehaviour {
 	Rigidbody rb;
 	public float gravityAddition;
 

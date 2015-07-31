@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 423228}
   - 114: {fileID: 11475004}
+  - 65: {fileID: 6571386}
   m_Layer: 0
   m_Name: Creature
   m_TagString: Untagged
@@ -41,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 171788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.249351025, y: .461818218, z: -.0546636581}
+  m_LocalPosition: {x: -4.44500017, y: 1.51100004, z: -9.03861809}
   m_LocalScale: {x: .5, y: .5, z: .5}
   m_Children:
   - {fileID: 491914}
@@ -101,6 +102,18 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6571386
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171788}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.10000002, y: 1.10000002, z: 1.10000002}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11475004
 MonoBehaviour:
