@@ -4,13 +4,13 @@ using System.Collections;
 public class SlingshotGenerator : MonoBehaviour {
     public GameObject sligshot;
     public string slingshotName;
-    public Vector3[] positions;
+    public Vector3 slingshotPos;
 
 	// Use this for initialization
 	void Start () {
         if (PhotonNetwork.inRoom)
         {
-            Vector3 pos = positions[PhotonNetwork.player.ID - 1];
+            Vector3 pos = Quaternion.Euler(0, 120 * (PhotonNetwork.player.ID - 1), 0) * slingshotPos;
             Quaternion rotation = Quaternion.LookRotation(-pos, Vector3.up);
             GameObject sling = (GameObject)PhotonNetwork.Instantiate(slingshotName, pos, rotation, 0);
             sling.GetComponentInChildren<Slingshot>().slingId = PhotonNetwork.player.ID;
@@ -18,9 +18,10 @@ public class SlingshotGenerator : MonoBehaviour {
         else
         {
             int curId = 1;
-            foreach (Vector3 pos in positions)
+            for (int i = 0; i < 3; ++i)
             {
-                GameObject sling = (GameObject)Instantiate(sligshot, pos, Quaternion.LookRotation(-pos, new Vector3(0, 1, 0)));
+                Vector3 pos = Quaternion.Euler(0, 120 * i, 0) * slingshotPos;
+                GameObject sling = (GameObject)Instantiate(sligshot, pos, Quaternion.LookRotation(-pos, Vector3.up));
                 sling.GetComponentInChildren<Slingshot>().slingId = curId;
                 ++curId;
             }

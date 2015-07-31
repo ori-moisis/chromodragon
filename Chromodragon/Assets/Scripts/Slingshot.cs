@@ -28,16 +28,20 @@ public class Slingshot : Photon.PunBehaviour {
     {
         if (! PhotonNetwork.inRoom)
         {
+            Debug.Log("asdasd not in room");
             return false;
         }
         if (! photonView.isMine)
         {
+            Debug.Log("asdasd player " + PhotonNetwork.player.ID + " not mine");
             return true;
         }
         if (! Manager.instance.isMyTurn ())
         {
+            Debug.Log("asdasd player " + PhotonNetwork.player.ID + " Not my turn");
             return true;
         }
+        Debug.Log("asdasd player " + PhotonNetwork.player.ID + " turn enabled");
         return false;
     }
 
