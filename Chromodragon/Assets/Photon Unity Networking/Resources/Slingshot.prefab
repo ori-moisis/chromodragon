@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mozzleOffset: {x: 0, y: .5, z: 0}
-  velocityMultiplier: 4
+  velocityMultiplier: 6
   shot: {fileID: 157558, guid: 1603bed6426c9924a83100c2506b8a89, type: 2}
   debugPrints: 0
   slingId: 0
@@ -307,6 +307,10 @@ Prefab:
       propertyPath: shot
       value: 
       objectReference: {fileID: 157558, guid: 1603bed6426c9924a83100c2506b8a89, type: 2}
+    - target: {fileID: 0}
+      propertyPath: velocityMultiplier
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 126890}
