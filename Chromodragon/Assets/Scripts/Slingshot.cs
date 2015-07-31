@@ -9,10 +9,13 @@ public class Slingshot : MonoBehaviour {
 	public bool debugPrints = false;
     public int slingId;
     PhotonView photonView;
+	LineRenderer rubberBand;
 
 	// Use this for initialization
 	void Start () {
         photonView = GetComponent<PhotonView>();
+		rubberBand = GetComponentInParent<LineRenderer> ();
+		calibrateRubberBand ();
 	}
 	
 	// Update is called once per frame
@@ -35,6 +38,7 @@ public class Slingshot : MonoBehaviour {
 		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
 		transform.position = curPosition;
+		updateRubberBand ();
 
 		if(debugPrints) print ("curScreenPoint - " + curScreenPoint + "\ncurPosition - " + curPosition);
 	}
@@ -48,6 +52,7 @@ public class Slingshot : MonoBehaviour {
 
 		//snap draggable back and shoot
 		transform.position = initialPosition;
+		updateRubberBand ();
 
 		if (diff.y > 0) {
             if (PhotonNetwork.inRoom)
@@ -73,6 +78,21 @@ public class Slingshot : MonoBehaviour {
 		var shotRigidBody = myShot.GetComponent<Rigidbody> ();
 		shotRigidBody.transform.position = pos + mozzleOffset;
 		shotRigidBody.velocity = dir;
+	}
+
+	//update rubber band location
+	void updateRubberBand(){
+		rubberBand.SetPosition (1, transform.position);
+	}
+
+	//calibrate rubber bands once
+	void calibrateRubberBand(){
+		var orthogonalSideOffset = Vector3.Cross (-transform.position, Vector3.up);
+		orthogonalSideOffset.Normalize ();
+		rubberBand.SetPosition (0, transform.position + orthogonalSideOffset);
+		rubberBand.SetPosition (2, transform.position - orthogonalSideOffset);
+		updateRubberBand();
+
 	}
 }
 
