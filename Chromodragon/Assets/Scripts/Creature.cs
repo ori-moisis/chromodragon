@@ -30,20 +30,22 @@ public class Creature : MonoBehaviour
 		SetColor ();
 	}
 
-	public void EatColor (GameColors color)
+	public void EatColor (Shot shot)
 	{
-        GameColors prevColor = currentColor;
-		if (currentColor.IsRivalColor (color)) {
-//			SpitColor (color);
+		if (currentColor.IsRivalColor (shot.shotParams.color)) {
+			if (shot.shotParams.timeToLive > 0) {
+				--shot.shotParams.timeToLive;
+				SpitColor (shot);
+			}
 		} else {
-			nextColor = currentColor.Add (color);
-            Manager.instance.updateScore(prevColor, nextColor);
+			nextColor = currentColor.Add (shot.shotParams.color);
+			Manager.instance.updateScore (currentColor, nextColor);
 			animator.SetTrigger (EAT_TRIGGER);
 		}
         
 	}
 
-	public void SpitColor (GameColors color)
+	public void SpitColor (Shot shot)
 	{
 		var neighbors = Manager.instance.getNeighbours (this);
 
@@ -58,10 +60,7 @@ public class Creature : MonoBehaviour
 		}
 
 		for (int i = 0; i < amountToSpit; ++i) {
-//			if (neighbor != null) {
-			Debug.Log ("Spitting to neighbor " + i);
-			neighbors [i].EatColor (color);
-//			}
+			neighbors [i].EatColor (shot);
 		}
 	}
 
@@ -94,12 +93,12 @@ public class Creature : MonoBehaviour
 	{
 		switch (shot.shotParams.type) {
 		case Shot.ShotTypes.ColorShot:
-			EatColor (shot.shotParams.color);
+			EatColor (shot);
 			break;
 		//case Shot.ShotTypes.SpecialShot:
-			// TODO: Special shot
-            //Debug.Log ("Special shot");
-			//break;
+		// TODO: Special shot
+		//Debug.Log ("Special shot");
+		//break;
 		}
 	}
 }
