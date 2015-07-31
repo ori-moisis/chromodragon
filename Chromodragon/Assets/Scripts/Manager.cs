@@ -24,6 +24,7 @@ public class Manager : MonoBehaviour {
     int numCreatures = 0;
 
     public int hexRadius = 3;
+    public int currentTurn = 0;
 
     // Map hexagon-cube coordinates to creatures:
     GameObject[, ,] coordToCreature;

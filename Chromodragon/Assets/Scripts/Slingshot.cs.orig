@@ -19,12 +19,16 @@ public class Slingshot : Photon.PunBehaviour {
         photonView = GetComponent<PhotonView>();
 		calibrateRubberBand ();
 		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
+<<<<<<< HEAD
+=======
+		trajectoryMngr.init ();
         nextShots = new Shot.ShotParams[3];
         nextShotIndex = 0;
         for (int i = 0; i < nextShots.Length; ++i)
         {
             nextShots[i] = new Shot.ShotParams();
         }
+>>>>>>> 420dbdd7be5b0116b5ea9e7789e23eab0ce50170
 	}
 	
 	// Update is called once per frame
@@ -102,7 +106,7 @@ public class Slingshot : Photon.PunBehaviour {
 
 		//shoot
 		if (diff.y > 0) {
-			Shot.ShotParams nextShot = this.GetNextShot();
+            Shot.ShotParams nextShot = this.GetNextShot();
             if (PhotonNetwork.inRoom)
             {
                 PhotonNetwork.RPC(photonView, "shoot", PhotonTargets.All, false, new object[] {diff * velocityMultiplier, (int)nextShot.type, (int)nextShot.color});
@@ -126,6 +130,13 @@ public class Slingshot : Photon.PunBehaviour {
     [PunRPC]
 	void shoot(Vector3 dir, int intType, int intColor)
 	{
+<<<<<<< HEAD
+		print("shooting - velocity is - " + dir);
+		var myShot = Instantiate (shot);
+		var shotRigidBody = myShot.GetComponent<Rigidbody> ();
+        shotRigidBody.transform.position = this.transform.position + mozzleOffset;
+		shotRigidBody.velocity = dir;		
+=======
 		if(debugPrints) print("Shooot!");
         Shot.ShotTypes type = (Shot.ShotTypes)intType;
         GameColors color = (GameColors)intColor;
@@ -135,6 +146,7 @@ public class Slingshot : Photon.PunBehaviour {
         shotRigidBody.transform.position = this.transform.position + mozzleOffset;
 		shotRigidBody.velocity = dir;
         Manager.instance.currentTurn = (Manager.instance.currentTurn + 1) % PhotonNetwork.playerList.Length;
+>>>>>>> 420dbdd7be5b0116b5ea9e7789e23eab0ce50170
 	}
 
 	//calibrate rubber bands once
