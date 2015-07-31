@@ -51,4 +51,21 @@ public class Creature : MonoBehaviour
 			sprite.color = currentColor.GetColor();
 		}
 	}
+
+	//collision callback
+	void OnCollisionEnter (Collision col)
+	{
+		if(col.gameObject.tag == "shot")
+		{
+			// TODO: get color from col
+			Destroy(col.gameObject);
+			hit ();
+		}
+	}
+
+	void hit()
+	{
+		//TODO: paint correctly
+		Destroy(gameObject);
+	}
 }

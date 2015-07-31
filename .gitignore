@@ -11,10 +11,10 @@ ExportedObj/
 obj/
 *.svd
 *.userprefs
-/*.csproj
+*.csproj
 *.pidb
 *.suo
-/*.sln
+*.sln
 *.user
 *.unityproj
 *.booproj
@@ -29,3 +29,9 @@ obj/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# ==== #
+# Game #
+# ==== #
+Chromodragon.exe
+Chromodragon_Data
