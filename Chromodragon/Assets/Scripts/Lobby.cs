@@ -28,7 +28,11 @@ public class Lobby : MonoBehaviour {
     void OnPhotonRandomJoinFailed()
     {
         Debug.Log("Join random room failed");
-        PhotonNetwork.CreateRoom(null);
+        RoomOptions opts = new RoomOptions();
+        opts.maxPlayers = 3;
+        opts.isOpen = true;
+        opts.isVisible = true;
+        PhotonNetwork.CreateRoom(null, opts, null);
     }
 
     void OnPhotonCreateRoomFailed()
