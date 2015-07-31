@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ClickAndDragShooting : MonoBehaviour {
+public class Slingshot : MonoBehaviour {
 	Vector3 screenPoint, offset, initialPosition;
 	public Vector3 mozzleOffset; //where shot will apear compared to this
 	public float velocityMultiplier; //how strong to shot compared to pull
