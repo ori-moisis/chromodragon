@@ -157,7 +157,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentColor: 0
+  shotPrefab: {fileID: 157558, guid: 1603bed6426c9924a83100c2506b8a89, type: 2}
+  iShoot: 0
   amountToSpit: 3
+  spitAngle: 45
+  spitDirections: 6
+  muzzleOffset: .5
+  spitHeight: 100
+  spitSpeed: 4
 --- !u!135 &13555230
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -168,7 +175,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .5
+  m_Radius: .200000003
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &21243744
 SpriteRenderer:
@@ -230,8 +237,12 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: spitDirections.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_Radius
-      value: .5
+      value: .200000003
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: amountToSpit
@@ -244,6 +255,30 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.y
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spitAngle
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spitDirections
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shotPrefab
+      value: 
+      objectReference: {fileID: 157558, guid: 1603bed6426c9924a83100c2506b8a89, type: 2}
+    - target: {fileID: 0}
+      propertyPath: muzzleOffset
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spitHeight
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spitSpeed
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

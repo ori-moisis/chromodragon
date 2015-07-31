@@ -5,9 +5,16 @@ using System.Collections.Generic;
 public class Creature : MonoBehaviour
 {
 	public GameColors currentColor;
-	private GameColors nextColor;
+	public GameObject shotPrefab;
+	public bool iShoot;
 
-	public int amountToSpit;
+	private Shot.ShotParams savedShotParams;
+
+	public float spitAngle;
+	public int spitDirections;
+	public float muzzleOffset;
+	public float spitSpeed;
+	private List<Vector3> spitDirectionVectors;
 
 	private SpriteRenderer sprite;
 	private Animator animator;
@@ -25,59 +32,59 @@ public class Creature : MonoBehaviour
 	{
 		sprite = GetComponentInChildren<SpriteRenderer> ();
 		animator = GetComponent<Animator> ();
-		nextColor = currentColor;
-		currentColor = GameColors.White;
-		SetColor ();
+
+		CalculateSpitDirections ();
 	}
 
-	public void EatColor (Shot shot)
+	private float time = 0;
+	protected void Update ()
 	{
-		if (currentColor.IsRivalColor (shot.shotParams.color)) {
-			if (shot.shotParams.timeToLive > 0) {
-				--shot.shotParams.timeToLive;
-				SpitColor (shot);
+
+		if (iShoot) {
+			time += Time.deltaTime;
+			if (time > 1) {
+				time = 0;
+				SpitShot (new Shot.ShotParams ());
 			}
-		} else {
-			nextColor = currentColor.Add (shot.shotParams.color);
-			Manager.instance.updateScore (currentColor, nextColor);
-			animator.SetTrigger (EAT_TRIGGER);
-		}
-        
-	}
-
-	public void SpitColor (Shot shot)
-	{
-		var neighbors = Manager.instance.getNeighbours (this);
-
-		int amountToDelete = neighbors.Count - amountToSpit;
-
-		while (amountToDelete > 0) {
-			int lastNeighbor = amountToDelete + amountToSpit - 1;
-			int neighborToDelete = Random.Range (0, lastNeighbor);
-			neighbors [neighborToDelete] = neighbors [lastNeighbor];
-			neighbors [lastNeighbor] = null;
-			--amountToDelete;
-		}
-
-		for (int i = 0; i < amountToSpit; ++i) {
-			neighbors [i].EatColor (shot);
 		}
 	}
 
-	public void ClearColors ()
+	private void CalculateSpitDirections ()
 	{
-		if (currentColor != GameColors.White) {
-			nextColor = GameColors.White;
-			SetColor ();
+		spitDirectionVectors = new List<Vector3> ();
+		Vector3 blah = Quaternion.Euler (0, 0, -spitAngle) * new Vector3 (1, 0, 0);
+		for (int i = 0; i < spitDirections; i++) {
+			spitDirectionVectors.Add (new Vector3 (blah.x, blah.y, blah.z));
+			blah = Quaternion.Euler (0, 360 / spitDirections, 0) * blah;
 		}
 	}
 
-	private void SetColor ()
+	public void SpitShot (Shot.ShotParams shotParams)
 	{
-		if (nextColor != currentColor) {
-			currentColor = nextColor;
-			sprite.color = currentColor.GetColor ();
+		foreach (var direction in spitDirectionVectors) {
+			Debug.Log (direction);
+			ShootColor (direction, shotParams);
 		}
+	}
+
+	private void ShootColor (Vector3 direction, Shot.ShotParams shotParams)
+	{
+//		float height = direction.y;
+//		direction.y = 0;
+
+//		float distance = direction2d.magnitude;
+//		float angle = spitAngle * Mathf.Deg2Rad;
+//		Vector3 direction3d = new Vector3 (direction2d.x, distance * Mathf.Tan (angle), direction2d.y);
+//		distance += height / Mathf.Tan (angle);
+//		float speed = Mathf.Sqrt (distance * Physics.gravity.magnitude / Mathf.Sin (2 * angle));
+//		Vector3 direction3d = new Vector3 (direction2d.x, spitHeight, direction2d.y);
+//		Vector3 velocity = spitSpeed * direction;
+
+		Shot newShot = Object.Instantiate (shotPrefab).GetComponent<Shot> ();
+		newShot.InitShot (new Shot.ShotParams (shotParams.type, shotParams.color, shotParams.timeToLive - 1));
+		var shotRigidBody = newShot.GetComponent<Rigidbody> ();
+		shotRigidBody.transform.position = this.transform.position + new Vector3 (0, muzzleOffset, 0);
+		shotRigidBody.velocity = spitSpeed * direction;
 	}
 
 	//collision callback
@@ -93,12 +100,34 @@ public class Creature : MonoBehaviour
 	{
 		switch (shot.shotParams.type) {
 		case Shot.ShotTypes.ColorShot:
-			EatColor (shot);
+			EatColor (shot.shotParams);
 			break;
 		//case Shot.ShotTypes.SpecialShot:
 		// TODO: Special shot
 		//Debug.Log ("Special shot");
 		//break;
+		}
+	}
+
+	public void EatColor (Shot.ShotParams shotParams)
+	{
+		savedShotParams = shotParams;
+		animator.SetTrigger (EAT_TRIGGER);
+	}
+	
+	private void ConsumeShot ()
+	{
+		GameColors newColor = currentColor.Add (savedShotParams.color);
+
+		if (currentColor.IsRivalColor (savedShotParams.color)) {
+			if (savedShotParams.timeToLive > 0) {
+				SpitShot (savedShotParams);
+			}
+		} else if (newColor != currentColor) {
+			Manager.instance.updateScore (currentColor, newColor);
+			currentColor = newColor;
+			sprite.color = currentColor.GetColor ();
+
 		}
 	}
 }

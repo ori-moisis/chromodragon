@@ -28,7 +28,7 @@ GameObject:
   - 54: {fileID: 5432956}
   - 114: {fileID: 11441116}
   - 96: {fileID: 9602600}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: shot
   m_TagString: shot
   m_Icon: {fileID: 0}
@@ -132,6 +132,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityAddition: 0
+  shotParams:
+    type: 0
+    color: 3
+    timeToLive: 2
 --- !u!135 &13596538
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -176,7 +180,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 157558}

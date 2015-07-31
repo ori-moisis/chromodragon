@@ -30,11 +30,11 @@ public class Shot : MonoBehaviour
 			timeToLive = 2;
 		}
 
-		public ShotParams (ShotTypes type, GameColors color)
+		public ShotParams (ShotTypes type, GameColors color, int timeToLive)
 		{
 			this.type = type;
 			this.color = color;
-			timeToLive = 2;
+			this.timeToLive = timeToLive;
 		}
 	}
 
