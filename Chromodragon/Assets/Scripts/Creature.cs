@@ -9,7 +9,10 @@ public class Creature : MonoBehaviour
 
 	public int amountToSpit;
 
-	private SpriteRenderer sprite;
+	public SpriteRenderer bodyRenderer;
+    public SpriteRenderer eyesRenderer;
+
+
 	private Animator animator;
 
 	private static int EAT_TRIGGER = Animator.StringToHash ("eat");
@@ -23,12 +26,17 @@ public class Creature : MonoBehaviour
 
 	protected void Awake ()
 	{
-		sprite = GetComponentInChildren<SpriteRenderer> ();
-		animator = GetComponent<Animator> ();
+        animator = GetComponent<Animator>();
 		nextColor = currentColor;
 		currentColor = GameColors.White;
 		SetColor ();
 	}
+
+    public void SetLayerOrders(int order)
+    {
+        //bodyRenderer.sortingOrder = 2*order;
+        //eyesRenderer.sortingOrder = 2*order + 1;
+    }
 
 	public void EatColor (GameColors color)
 	{
@@ -77,7 +85,7 @@ public class Creature : MonoBehaviour
 	{
 		if (nextColor != currentColor) {
 			currentColor = nextColor;
-			sprite.color = currentColor.GetColor ();
+			bodyRenderer.color = currentColor.GetColor ();
 		}
 	}
 

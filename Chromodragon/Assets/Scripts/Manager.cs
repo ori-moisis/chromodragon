@@ -123,14 +123,16 @@ public class Manager : MonoBehaviour
 				for (int z = 0; z <= gridRadius; ++z) {
 					if (x == 0 || y == 0 || z == 0) {
 						// Calculate world coordinates from cube-hexagon coordinates:
-						float newX = x - Mathf.Cos (Mathf.PI / 3) * (y + z);
-						float newY = Random.value * 0.1f;
-						float newZ = Mathf.Sin (Mathf.PI / 3) * (y - z);
+						float newX = 1.05f* (x - Mathf.Cos (Mathf.PI / 3) * (y + z));
+						float newY = Random.value * 0.15f;
+						float newZ = 0.8f * (Mathf.Sin (Mathf.PI / 3) * (y - z));
 
 						// Create a new creature:
 						Creature newCreature = Instantiate (CreaturePrefab)as Creature;
 						newCreature.transform.parent = creatures.transform;
-						newCreature.transform.position = new Vector3 (newX, 0.25f, newZ);
+                        newCreature.transform.position = new Vector3(newX, newY, newZ);
+                        Debug.Log(newZ);
+                        newCreature.SetLayerOrders((int)Mathf.Abs(20 - 2*Mathf.Abs(5+newZ) ));
 
 						// add creature to data structures
 						coordToCreature [x, y, z] = newCreature;
@@ -140,7 +142,7 @@ public class Manager : MonoBehaviour
 						// Create a new tile:
 						GameObject newTile = Instantiate (hexTilePrefab);
 						newTile.transform.parent = tiles.transform;
-						newTile.transform.position = new Vector3 (newX, newY + 0, newZ);
+						newTile.transform.position = new Vector3 (newX, newY, newZ);
 
 
 						++numCreatures;
