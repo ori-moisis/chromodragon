@@ -141,7 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae2a09f47fad904bae760fb12f10abb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sligshot: {fileID: 126890, guid: bf222497ba633b64ba96ed0c97a8b58f, type: 2}
+  sligshot: {fileID: 126890, guid: 0c33b5ef2cb20b74c8558a4d0353cab3, type: 2}
+  slingshotName: Slingshot
   positions:
   - {x: 0, y: 1, z: -5}
   - {x: 4.32999992, y: 1, z: 2.5}

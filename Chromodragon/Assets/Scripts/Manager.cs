@@ -8,7 +8,7 @@ public class Manager : MonoBehaviour {
 
     public GameObject CreaturePrefab;
     public GameObject hexTilePrefab;
-public Vector3[] cameraPositions;
+    public Vector3[] cameraPositions;
     public GameObject creatures;
     public GameObject tiles;
 

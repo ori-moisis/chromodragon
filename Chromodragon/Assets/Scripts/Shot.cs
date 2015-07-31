@@ -5,7 +5,6 @@ public class Shot : MonoBehaviour
 {
 	private Rigidbody rigidBody;
 	private SpriteRenderer spriteRenderer;
-	private TrailRenderer trailRenderer;
 
 	public float gravityAddition;
 
@@ -18,20 +17,10 @@ public class Shot : MonoBehaviour
 	public ShotTypes shotType;
 	public GameColors shotColor;
 
-#if UNITY_EDITOR
-	void OnDrawGizmos ()
-	{
-		if (!Application.isPlaying) {
-			Awake ();
-		}
-	}
-#endif
-
 	protected void Awake ()
 	{
 		rigidBody = GetComponent<Rigidbody> ();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer> ();
-		trailRenderer = GetComponent<TrailRenderer> ();
 
 		// TODO: make this not random
 		GameColors color;
@@ -52,14 +41,12 @@ public class Shot : MonoBehaviour
 		shotType = type;
 		shotColor = color;
 
-		Debug.Log ("Setting shot color");
-
 		switch (shotType) {
 		case ShotTypes.ColorShot:
-			spriteRenderer.color = ColorsManager.colorMap [shotColor];
+			SetColor (ColorsManager.colorMap [shotColor]);
 			break;
 		case ShotTypes.SpecialShot:
-			spriteRenderer.color = Color.gray;
+			SetColor (Color.gray);
 			break;
 		}
 	}
@@ -67,7 +54,6 @@ public class Shot : MonoBehaviour
 	private void SetColor (Color color)
 	{
 		spriteRenderer.color = color;
-
 	}
 
 	void FixedUpdate ()
