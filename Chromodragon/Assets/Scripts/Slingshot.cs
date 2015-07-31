@@ -83,7 +83,7 @@ public class Slingshot : MonoBehaviour {
 		if(debugPrints) print("Shooot!");
 		var myShot = Instantiate (shot);
 		var shotRigidBody = myShot.GetComponent<Rigidbody> ();
-		shotRigidBody.transform.position = pos + mozzleOffset;
+        shotRigidBody.transform.position = this.transform.position + mozzleOffset;
 		shotRigidBody.velocity = dir;
 	}
 
