@@ -1,54 +1,52 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Shot : MonoBehaviour
 {
 	private Rigidbody rigidBody;
 	private SpriteRenderer spriteRenderer;
 
+    public enum ShotTypes : int
+    {
+        ColorShot
+        //SpecialShot //?
+    }
+
+    static GameColors[] possibleColors = new GameColors[] { GameColors.Red, GameColors.Yellow, GameColors.Blue };
+    static Array possibleTypes = Enum.GetValues(typeof(ShotTypes));
+
+    public class ShotParams
+    {
+        public ShotTypes type;
+        public GameColors color;
+
+        public ShotParams()
+        {
+            type = (ShotTypes)possibleTypes.GetValue((int)(UnityEngine.Random.value * possibleTypes.Length));
+            color = possibleColors[(int)(UnityEngine.Random.value * possibleColors.Length)];
+        }
+
+        public ShotParams(ShotTypes type, GameColors color)
+        {
+            this.type = type;
+            this.color = color;
+        }
+    }
+
 	public float gravityAddition;
-
-	public enum ShotTypes
-	{
-		ColorShot,
-		SpecialShot //?
-	}
-
-	public ShotTypes shotType;
-	public GameColors shotColor;
+    public ShotParams shotParams;
 
 	protected void Awake ()
 	{
 		rigidBody = GetComponent<Rigidbody> ();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer> ();
-
-		// TODO: make this not random
-		GameColors color;
-		float randomColorPercent = Random.value * 3;
-		if (randomColorPercent < 1.0f) {
-			color = GameColors.Blue;
-		} else if (randomColorPercent < 2.0f) {
-			color = GameColors.Red;
-		} else {
-			color = GameColors.Yellow;
-		}
-
-		InitShot (ShotTypes.ColorShot, color);
 	}
 
-	public void InitShot (ShotTypes type, GameColors color)
+	public void InitShot (ShotParams shotParams)
 	{
-		shotType = type;
-		shotColor = color;
-
-		switch (shotType) {
-		case ShotTypes.ColorShot:
-			SetColor (shotColor.GetColor ());
-			break;
-		case ShotTypes.SpecialShot:
-			SetColor (Color.gray);
-			break;
-		}
+        this.shotParams = shotParams;
+        this.SetColor(ColorsManager.colorMap[this.shotParams.color]);
 	}
 
 	private void SetColor (Color color)

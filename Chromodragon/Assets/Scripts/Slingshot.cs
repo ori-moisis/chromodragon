@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Slingshot : MonoBehaviour {
+public class Slingshot : Photon.PunBehaviour {
 	Vector3 screenPoint, offset, initialPosition;
 	public Vector3 mozzleOffset; //where shot will apear compared to this
 	public float velocityMultiplier; //how strong to shot compared to pull
@@ -11,14 +11,20 @@ public class Slingshot : MonoBehaviour {
     PhotonView photonView;
 	LineRenderer rubberBand;
 	TrajectoryManager trajectoryMngr;
+    Shot.ShotParams[] nextShots;
+    int nextShotIndex;
 
 	// Use this for initialization
 	void Start () {
         photonView = GetComponent<PhotonView>();
 		calibrateRubberBand ();
 		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
-		trajectoryMngr.init ();
-
+        nextShots = new Shot.ShotParams[3];
+        nextShotIndex = 0;
+        for (int i = 0; i < nextShots.Length; ++i)
+        {
+            nextShots[i] = new Shot.ShotParams();
+        }
 	}
 	
 	// Update is called once per frame
@@ -26,8 +32,29 @@ public class Slingshot : MonoBehaviour {
 	
 	}
 
+    bool IsDisabled()
+    {
+        if (! PhotonNetwork.inRoom)
+        {
+            return false;
+        }
+        if (! photonView.isMine)
+        {
+            return true;
+        }
+        if ((Manager.instance.currentTurn + 1) != PhotonNetwork.player.ID)
+        {
+            return true;
+        }
+        return false;
+    }
+
 	//start to drag
 	void OnMouseDown() {
+        if (this.IsDisabled())
+        {
+            return;
+        }
 		screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 		initialPosition = gameObject.transform.position;
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
@@ -36,8 +63,12 @@ public class Slingshot : MonoBehaviour {
 	}
 	
 	void OnMouseDrag() 
-	{ 
-		//calculate new dragged position
+	{
+        if (this.IsDisabled())
+        {
+            return;
+        }
+        //calculate new dragged position
 		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
 		transform.position = curPosition;
@@ -45,46 +76,65 @@ public class Slingshot : MonoBehaviour {
 		
 		//plot trajectory
 		Vector3 diff = initialPosition - transform.position;
-		trajectoryMngr.PlotTrajectory (this.transform.position + mozzleOffset, diff * velocityMultiplier, 0.5f, 5);
+		trajectoryMngr.PlotTrajectory (initialPosition,  diff * velocityMultiplier );
 
 		if(debugPrints) print ("curScreenPoint - " + curScreenPoint + "\ncurPosition - " + curPosition);
 	}
 	
 	void OnMouseUp()
 	{
+        if (this.IsDisabled())
+        {
+            return;
+        }
+
 		//calculate drag vector
 		Vector3 diff = initialPosition - transform.position;
 
 		if(debugPrints) print("initial = " + initialPosition + "\ncurrent position = " + transform.position + "\nvec = " + diff + "\ndist = " + diff.magnitude);
 
-		//snap draggable back and shoot
+		//snap draggable back
 		transform.position = initialPosition;
 		updateRubberBand ();
 
+		//hide guide
+		trajectoryMngr.hideTrajectory ();
+
+		//shoot
 		if (diff.y > 0) {
+			Shot.ShotParams nextShot = this.GetNextShot();
             if (PhotonNetwork.inRoom)
             {
-                if (PhotonNetwork.player.ID == slingId)
-                {
-                    PhotonNetwork.RPC(photonView, "shoot", PhotonTargets.All, false, new object[] {this.transform.position, diff * velocityMultiplier});
-                }
+                PhotonNetwork.RPC(photonView, "shoot", PhotonTargets.All, false, new object[] {diff * velocityMultiplier, (int)nextShot.type, (int)nextShot.color});
             }
             else
             {
-                shoot(this.transform.position, diff * velocityMultiplier);
+                shoot(diff * velocityMultiplier, (int)nextShot.type, (int)nextShot.color);
             }
 		}
 	}
 
+    Shot.ShotParams GetNextShot()
+    {
+        Shot.ShotParams next = this.nextShots[this.nextShotIndex];
+        this.nextShots[this.nextShotIndex] = new Shot.ShotParams();
+        this.nextShotIndex = (this.nextShotIndex + 1) % this.nextShots.Length;
+        return next;
+    }
+
 	//shoot
     [PunRPC]
-	void shoot(Vector3 pos, Vector3 dir)
+	void shoot(Vector3 dir, int intType, int intColor)
 	{
 		if(debugPrints) print("Shooot!");
-		var myShot = Instantiate (shot);
+        Shot.ShotTypes type = (Shot.ShotTypes)intType;
+        GameColors color = (GameColors)intColor;
+		GameObject myShot = (GameObject)Instantiate (shot);
+        myShot.GetComponent<Shot>().InitShot(new Shot.ShotParams(type, color));
 		var shotRigidBody = myShot.GetComponent<Rigidbody> ();
-		shotRigidBody.transform.position = pos + mozzleOffset;
+        shotRigidBody.transform.position = this.transform.position + mozzleOffset;
 		shotRigidBody.velocity = dir;
+        Manager.instance.currentTurn = (Manager.instance.currentTurn + 1) % PhotonNetwork.playerList.Length;
 	}
 
 	//calibrate rubber bands once

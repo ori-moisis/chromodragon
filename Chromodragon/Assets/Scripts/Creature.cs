@@ -90,14 +90,14 @@ public class Creature : MonoBehaviour
 
 	void hit (Shot shot)
 	{
-		switch (shot.shotType) {
+		switch (shot.shotParams.type) {
 		case Shot.ShotTypes.ColorShot:
-			EatColor (shot.shotColor);
+			EatColor (shot.shotParams.color);
 			break;
-		case Shot.ShotTypes.SpecialShot:
+		//case Shot.ShotTypes.SpecialShot:
 			// TODO: Special shot
-			Debug.Log ("Special shot");
-			break;
+            //Debug.Log ("Special shot");
+			//break;
 		}
 	}
 }

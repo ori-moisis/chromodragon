@@ -29,8 +29,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 476644}
   - 120: {fileID: 12038282}
+  - 114: {fileID: 11487450}
   m_Layer: 0
-  m_Name: Slingshot 2.0
+  m_Name: Slingshot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,12 +133,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7563a153c42ccac4496db23caa99193c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startWidth: .200000003
+  endWidth: .200000003
+  redrawThreshhold: 1
+  material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  startColor: {r: 0, g: 1, b: 1, a: 1}
+  endColor: {r: 0, g: 1, b: .927999973, a: 1}
+  directionIndecatorLengthMultiplier: .25
 --- !u!114 &11444926
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 108940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  isRuntimeInstantiated: 0
+--- !u!114 &11487450
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126890}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
@@ -170,7 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mozzleOffset: {x: 0, y: .5, z: 0}
   velocityMultiplier: 4
-  shot: {fileID: 128874, guid: f19932f3060725443a8e1619ac81b458, type: 2}
+  shot: {fileID: 157558, guid: 1603bed6426c9924a83100c2506b8a89, type: 2}
   debugPrints: 0
   slingId: 0
 --- !u!120 &12038282
@@ -270,6 +303,10 @@ Prefab:
       propertyPath: m_ReceiveShadows
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shot
+      value: 
+      objectReference: {fileID: 157558, guid: 1603bed6426c9924a83100c2506b8a89, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 126890}
