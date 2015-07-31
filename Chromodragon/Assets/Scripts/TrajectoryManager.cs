@@ -19,6 +19,7 @@ public class TrajectoryManager : MonoBehaviour {
 		trajectory.SetVertexCount (2);
 		trajectory.useWorldSpace = true;
 		lastVelocity = new Vector3 (0, 0, 0);
+		hideTrajectory();
 	}
 
 
@@ -26,7 +27,6 @@ public class TrajectoryManager : MonoBehaviour {
 	public void PlotTrajectory (Vector3 start, Vector3 velocity, Shot.ShotParams shotParams) {
 		if (Vector3.Distance (velocity, lastVelocity) > redrawThreshhold) {
 			lastVelocity = velocity;
-			print ("plotting trajectory - Velocity is -" + velocity);
 			Vector3 prev = start;
 
 			trajectory.SetPosition(0, start);

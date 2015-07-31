@@ -159,6 +159,8 @@ MonoBehaviour:
   currentColor: 0
   shotPrefab: {fileID: 157558, guid: 1603bed6426c9924a83100c2506b8a89, type: 2}
   iShoot: 0
+  bodyRenderer: {fileID: 21279364}
+  eyesRenderer: {fileID: 21243744}
   amountToSpit: 3
   spitAngle: 45
   spitDirections: 6

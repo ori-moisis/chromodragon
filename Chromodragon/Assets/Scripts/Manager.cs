@@ -10,7 +10,6 @@ public class Manager : MonoBehaviour
 
 	public Creature CreaturePrefab;
 	public GameObject hexTilePrefab;
-	public Vector3[] cameraPositions;
 	public GameObject creatures;
 	public GameObject tiles;
 
@@ -18,14 +17,22 @@ public class Manager : MonoBehaviour
 	public Slider purpleScoreSlider;
 	public Slider orangeScoreSlider;
 
+    public Image[] turnImages;
+	public GameColors[] targetColors;
+	public GameObject nextBallsWidget;
+	NextBallsWidget nextBallsWidgetScript;
+
 	int numGreen = 0;
 	int numPurple = 0;
 	int numOrange = 0;
 
 	int numCreatures = 0;
 
-	public int hexRadius = 2;  // CHANGE IN GUI, here doesn't matter :(
+	public int hexRadius = 3;
 	public int currentTurn = 0;
+
+	public int nextShotIndex;
+	public Shot.ShotParams[] nextShots;
 
 	// Map hexagon-cube coordinates to creatures:
 	Creature[, ,] coordToCreature;
@@ -40,10 +47,19 @@ public class Manager : MonoBehaviour
 			instance = this;
 		}
 		initWorld (hexRadius);
-		if (PhotonNetwork.inRoom) {
-			Camera.main.transform.position = cameraPositions [PhotonNetwork.player.ID - 1];
-			Camera.main.transform.rotation = Quaternion.LookRotation (-Camera.main.transform.position, new Vector3 (0, 1, 0));
+		if (PhotonNetwork.inRoom)
+		{
+			Vector3 pos = Quaternion.Euler(0, 120 * (PhotonNetwork.player.ID - 1), 0) * Camera.main.transform.position;
+			Camera.main.transform.position = pos;
+			Camera.main.transform.rotation = Quaternion.LookRotation(-Camera.main.transform.position, Vector3.up);
+			setCurrentTurnImgColor(true);
 		}
+		nextBallsWidgetScript = nextBallsWidget.GetComponent<NextBallsWidget> ();
+        nextShots = new Shot.ShotParams[3];
+        for (int i = 0; i < nextShots.Length; ++i)
+        {
+            nextShots[i] = new Shot.ShotParams();
+        }
 	}
 
 	
@@ -83,6 +99,32 @@ public class Manager : MonoBehaviour
 		return neighbours;
 	}
 
+    int currentTurnIndex()
+    {
+        return (((PhotonNetwork.player.ID - currentTurn - 1) % 3) + 3) % 3;
+    }
+
+    void setCurrentTurnImgColor(bool isSet)
+    {
+        if (PhotonNetwork.inRoom)
+        {
+            Color newColor = ColorsManager.colorMap[this.targetColors[currentTurn]];
+            newColor.a = isSet ? 10 : 0;
+            this.turnImages[currentTurnIndex()].color = newColor;
+        }
+    }
+
+    public void updateTurn()
+    {
+        setCurrentTurnImgColor(false);
+        currentTurn = (currentTurn + 1) % PhotonNetwork.playerList.Length;
+        setCurrentTurnImgColor(true);
+    }
+
+    public bool isMyTurn()
+    {
+        return (currentTurn + 1) == PhotonNetwork.player.ID;
+    }
 
 	public void updateScore (GameColors prevColor, GameColors newColor)
 	{
@@ -111,6 +153,17 @@ public class Manager : MonoBehaviour
         Debug.Log(orangeScoreSlider.value);
 	}
 
+	public Shot.ShotParams GetNextShot()
+	{
+		Shot.ShotParams next = this.nextShots[this.nextShotIndex];
+		this.nextShots[this.nextShotIndex] = new Shot.ShotParams();
+		this.nextShotIndex = (this.nextShotIndex + 1) % this.nextShots.Length;
+
+		//update widget
+		nextBallsWidgetScript.dropNextBall();
+
+		return next;
+	}
 
 	// Initiates the creatures in the world according to the specified radius (number of creatures in each axis excluding the middle one)
 	void initWorld (int gridRadius)
@@ -123,14 +176,15 @@ public class Manager : MonoBehaviour
 				for (int z = 0; z <= gridRadius; ++z) {
 					if (x == 0 || y == 0 || z == 0) {
 						// Calculate world coordinates from cube-hexagon coordinates:
-						float newX = x - Mathf.Cos (Mathf.PI / 3) * (y + z);
-						float newY = Random.value * 0.1f;
-						float newZ = Mathf.Sin (Mathf.PI / 3) * (y - z);
+						float newX = (x - Mathf.Cos (Mathf.PI / 3) * (y + z));
+						float newY = Random.value * 0.15f;
+						float newZ = (Mathf.Sin (Mathf.PI / 3) * (y - z));
 
 						// Create a new creature:
 						Creature newCreature = Instantiate (CreaturePrefab)as Creature;
 						newCreature.transform.parent = creatures.transform;
-						newCreature.transform.position = new Vector3 (newX, 0.25f, newZ);
+                        newCreature.transform.position = new Vector3(newX, newY, newZ);
+                        Debug.Log(newZ);
 
 						// add creature to data structures
 						coordToCreature [x, y, z] = newCreature;
@@ -140,7 +194,7 @@ public class Manager : MonoBehaviour
 						// Create a new tile:
 						GameObject newTile = Instantiate (hexTilePrefab);
 						newTile.transform.parent = tiles.transform;
-						newTile.transform.position = new Vector3 (newX, newY + 0, newZ);
+						newTile.transform.position = new Vector3 (newX, newY, newZ);
 
 
 						++numCreatures;

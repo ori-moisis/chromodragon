@@ -6,6 +6,7 @@ public class Shot : MonoBehaviour
 {
 	private Rigidbody rigidBody;
 	private SpriteRenderer spriteRenderer;
+	private Vector3 startingPosition;
 
 	public enum ShotTypes : int
 	{
@@ -39,12 +40,15 @@ public class Shot : MonoBehaviour
 	}
 
 	public float gravityAddition;
+	public float velocityMultiplier;
 	public ShotParams shotParams;
+	public int framesToSelfDestruct = 60;
 
 	protected void Awake ()
 	{
 		rigidBody = GetComponent<Rigidbody> ();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer> ();
+		startingPosition = transform.position;
 	}
 
 	public void InitShot (ShotParams shotParams)
@@ -61,11 +65,32 @@ public class Shot : MonoBehaviour
 	void FixedUpdate ()
 	{
 		//make shots dsapear if their off screen for too long
-		if (transform.position.magnitude > 200) {
+		if (transform.position.magnitude > 150) {
 			Destroy (gameObject);
 		}
 
+		float distFromStart = Vector3.Distance (startingPosition, transform.position);
+
+		if (distFromStart > 7) {
+			spriteRenderer.sortingOrder = -1;
+		}
+
 		//make shots drop faster
-		rigidBody.AddForce (-Vector3.up * gravityAddition);
+		if (rigidBody != null) {
+			rigidBody.AddForce (-Vector3.up * gravityAddition);
+		} else {
+			//start self destruct timer
+			if(framesToSelfDestruct < 0){
+				Destroy(gameObject);
+			}
+			framesToSelfDestruct--;
+		}
+	}
+
+	public void hit(GameObject creature)
+	{
+		spriteRenderer.enabled = false;
+		Destroy (rigidBody);
+		//Destroy (gameObject);
 	}
 }
