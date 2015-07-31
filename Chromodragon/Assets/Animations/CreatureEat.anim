@@ -18,23 +18,23 @@ AnimationClip:
       m_Curve:
       - time: 0
         value: {x: 0, y: 0, z: 0}
-        inSlope: {x: 0, y: -.75, z: 0}
-        outSlope: {x: 0, y: -.75, z: 0}
+        inSlope: {x: 0, y: -1.5, z: 0}
+        outSlope: {x: 0, y: -1.5, z: 0}
         tangentMode: 0
-      - time: .13333334
+      - time: .0666666701
         value: {x: 0, y: -.100000001, z: 0}
-        inSlope: {x: 0, y: .0340909064, z: 0}
-        outSlope: {x: 0, y: .0340909064, z: 0}
+        inSlope: {x: 0, y: .0681818128, z: 0}
+        outSlope: {x: 0, y: .0681818128, z: 0}
         tangentMode: 0
-      - time: .5
+      - time: .25
         value: {x: 0, y: .200000003, z: 0}
-        inSlope: {x: 0, y: .209090903, z: 0}
-        outSlope: {x: 0, y: .209090903, z: 0}
+        inSlope: {x: 0, y: .318181753, z: 0}
+        outSlope: {x: 0, y: .318181753, z: 0}
         tangentMode: 0
-      - time: 1
+      - time: .449999988
         value: {x: 0, y: 0, z: 0}
-        inSlope: {x: 0, y: -.400000006, z: 0}
-        outSlope: {x: 0, y: -.400000006, z: 0}
+        inSlope: {x: 0, y: -1.00000012, z: 0}
+        outSlope: {x: 0, y: -1.00000012, z: 0}
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -48,20 +48,20 @@ AnimationClip:
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
-      - time: .13333334
+      - time: .0666666701
         value: {x: 1, y: 1, z: 1}
-        inSlope: {x: .681818187, y: 0, z: 0}
-        outSlope: {x: .681818187, y: 0, z: 0}
+        inSlope: {x: 1.36363637, y: 0, z: 0}
+        outSlope: {x: 1.36363637, y: 0, z: 0}
         tangentMode: 0
-      - time: .5
+      - time: .25
         value: {x: 1.5, y: 1, z: 1}
-        inSlope: {x: .181818187, y: 0, z: 0}
-        outSlope: {x: .181818187, y: 0, z: 0}
+        inSlope: {x: .113636255, y: 0, z: 0}
+        outSlope: {x: .113636255, y: 0, z: 0}
         tangentMode: 0
-      - time: 1
+      - time: .449999988
         value: {x: 1, y: 1, z: 1}
-        inSlope: {x: -1, y: 0, z: 0}
-        outSlope: {x: -1, y: 0, z: 0}
+        inSlope: {x: -2.50000024, y: 0, z: 0}
+        outSlope: {x: -2.50000024, y: 0, z: 0}
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -91,7 +91,7 @@ AnimationClip:
   m_AnimationClipSettings:
     serializedVersion: 2
     m_StartTime: 0
-    m_StopTime: 1
+    m_StopTime: .449999988
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -114,17 +114,17 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .13333334
+      - time: .0666666701
         value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .5
+      - time: .25
         value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: 1
+      - time: .449999988
         value: 0
         inSlope: 0
         outSlope: 0
@@ -140,23 +140,23 @@ AnimationClip:
       m_Curve:
       - time: 0
         value: 0
-        inSlope: -.75
-        outSlope: -.75
+        inSlope: -1.5
+        outSlope: -1.5
         tangentMode: 10
-      - time: .13333334
+      - time: .0666666701
         value: -.100000001
-        inSlope: .0340909064
-        outSlope: .0340909064
+        inSlope: .0681818128
+        outSlope: .0681818128
         tangentMode: 10
-      - time: .5
+      - time: .25
         value: .200000003
-        inSlope: .209090903
-        outSlope: .209090903
+        inSlope: .318181753
+        outSlope: .318181753
         tangentMode: 10
-      - time: 1
+      - time: .449999988
         value: 0
-        inSlope: -.400000006
-        outSlope: -.400000006
+        inSlope: -1.00000012
+        outSlope: -1.00000012
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -172,17 +172,17 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .13333334
+      - time: .0666666701
         value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .5
+      - time: .25
         value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: 1
+      - time: .449999988
         value: 0
         inSlope: 0
         outSlope: 0
@@ -201,20 +201,20 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .13333334
+      - time: .0666666701
         value: 1
-        inSlope: .681818187
-        outSlope: .681818187
+        inSlope: 1.36363637
+        outSlope: 1.36363637
         tangentMode: 10
-      - time: .5
+      - time: .25
         value: 1.5
-        inSlope: .181818187
-        outSlope: .181818187
+        inSlope: .113636255
+        outSlope: .113636255
         tangentMode: 10
-      - time: 1
+      - time: .449999988
         value: 1
-        inSlope: -1
-        outSlope: -1
+        inSlope: -2.50000024
+        outSlope: -2.50000024
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -230,17 +230,17 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .13333334
+      - time: .0666666701
         value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .5
+      - time: .25
         value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: 1
+      - time: .449999988
         value: 1
         inSlope: 0
         outSlope: 0
@@ -259,17 +259,17 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .13333334
+      - time: .0666666701
         value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .5
+      - time: .25
         value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: 1
+      - time: .449999988
         value: 1
         inSlope: 0
         outSlope: 0
@@ -285,7 +285,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: .5
+  - time: .25
     functionName: SetColor
     data: 
     objectReferenceParameter: {fileID: 0}
