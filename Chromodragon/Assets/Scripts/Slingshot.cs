@@ -10,12 +10,15 @@ public class Slingshot : MonoBehaviour {
     public int slingId;
     PhotonView photonView;
 	LineRenderer rubberBand;
+	TrajectoryManager trajectoryMngr;
 
 	// Use this for initialization
 	void Start () {
         photonView = GetComponent<PhotonView>();
-		rubberBand = GetComponentInParent<LineRenderer> ();
 		calibrateRubberBand ();
+		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
+		trajectoryMngr.init ();
+
 	}
 	
 	// Update is called once per frame
@@ -39,6 +42,10 @@ public class Slingshot : MonoBehaviour {
 		Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
 		transform.position = curPosition;
 		updateRubberBand ();
+		
+		//plot trajectory
+		Vector3 diff = initialPosition - transform.position;
+		trajectoryMngr.PlotTrajectory (this.transform.position + mozzleOffset, diff * velocityMultiplier, 0.5f, 5);
 
 		if(debugPrints) print ("curScreenPoint - " + curScreenPoint + "\ncurPosition - " + curPosition);
 	}
@@ -80,19 +87,25 @@ public class Slingshot : MonoBehaviour {
 		shotRigidBody.velocity = dir;
 	}
 
-	//update rubber band location
-	void updateRubberBand(){
-		rubberBand.SetPosition (1, transform.position);
-	}
-
 	//calibrate rubber bands once
-	void calibrateRubberBand(){
+	void calibrateRubberBand()
+	{
+		rubberBand = GetComponentInParent<LineRenderer> ();
 		var orthogonalSideOffset = Vector3.Cross (-transform.position, Vector3.up);
 		orthogonalSideOffset.Normalize ();
 		rubberBand.SetPosition (0, transform.position + orthogonalSideOffset);
 		rubberBand.SetPosition (2, transform.position - orthogonalSideOffset);
 		updateRubberBand();
-
 	}
+
+	//update rubber band location
+	void updateRubberBand(){
+		rubberBand.SetPosition (1, transform.position);
+	}
+
+
+
+
+
 }
 
