@@ -11,7 +11,7 @@ public class SlingshotGenerator : MonoBehaviour {
         foreach (Vector3 pos in positions)
         {
             GameObject sling = (GameObject)Instantiate(sligshot, pos, Quaternion.LookRotation(-pos, new Vector3(0,1,0)));
-            sling.GetComponent<Slingshot>().slingId = curId;
+            sling.GetComponentInChildren<Slingshot>().slingId = curId;
             ++curId;
         }
 	}
