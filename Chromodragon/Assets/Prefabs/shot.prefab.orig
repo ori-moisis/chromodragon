@@ -105,16 +105,16 @@ TrailRenderer:
   m_Colors:
     m_Color[0]:
       serializedVersion: 2
-      rgba: 4294967295
+      rgba: 4294901760
     m_Color[1]:
       serializedVersion: 2
-      rgba: 4294967295
+      rgba: 4294901760
     m_Color[2]:
       serializedVersion: 2
-      rgba: 3372220415
+      rgba: 3372154880
     m_Color[3]:
       serializedVersion: 2
-      rgba: 1694498815
+      rgba: 1694433280
     m_Color[4]:
       serializedVersion: 2
       rgba: 0
@@ -131,9 +131,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c2973d7c8000a498cb315948cfaf42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   gravityAddition: 0
+=======
+  gravityAddition: 15
   shotType: 0
   shotColor: 2
+>>>>>>> f63bcdaadf01c5f9f2f3acef40788c52a93c58b3
 --- !u!135 &13575796
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -261,7 +265,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_ReceiveShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Autodestruct

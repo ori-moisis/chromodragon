@@ -17,8 +17,6 @@ public class Slingshot : MonoBehaviour {
         photonView = GetComponent<PhotonView>();
 		calibrateRubberBand ();
 		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
-		trajectoryMngr.init ();
-
 	}
 	
 	// Update is called once per frame
@@ -45,7 +43,7 @@ public class Slingshot : MonoBehaviour {
 		
 		//plot trajectory
 		Vector3 diff = initialPosition - transform.position;
-		trajectoryMngr.PlotTrajectory (this.transform.position + mozzleOffset, diff * velocityMultiplier, 0.5f, 5);
+		trajectoryMngr.PlotTrajectory (initialPosition,  diff * velocityMultiplier );
 
 		if(debugPrints) print ("curScreenPoint - " + curScreenPoint + "\ncurPosition - " + curPosition);
 	}
@@ -57,10 +55,14 @@ public class Slingshot : MonoBehaviour {
 
 		if(debugPrints) print("initial = " + initialPosition + "\ncurrent position = " + transform.position + "\nvec = " + diff + "\ndist = " + diff.magnitude);
 
-		//snap draggable back and shoot
+		//snap draggable back
 		transform.position = initialPosition;
 		updateRubberBand ();
 
+		//hide guide
+		trajectoryMngr.hideTrajectory ();
+
+		//shoot
 		if (diff.y > 0) {
             if (PhotonNetwork.inRoom)
             {
@@ -80,11 +82,11 @@ public class Slingshot : MonoBehaviour {
     [PunRPC]
 	void shoot(Vector3 pos, Vector3 dir)
 	{
-		if(debugPrints) print("Shooot!");
+		print("shooting - velocity is - " + dir);
 		var myShot = Instantiate (shot);
 		var shotRigidBody = myShot.GetComponent<Rigidbody> ();
         shotRigidBody.transform.position = this.transform.position + mozzleOffset;
-		shotRigidBody.velocity = dir;
+		shotRigidBody.velocity = dir;		
 	}
 
 	//calibrate rubber bands once
