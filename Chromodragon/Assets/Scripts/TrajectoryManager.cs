@@ -39,7 +39,7 @@ public class TrajectoryManager : MonoBehaviour {
 		return start + startVelocity * time + Physics.gravity*(time*time)*0.5f;
 	}	
 	*/
-	public void PlotTrajectory (Vector3 start, Vector3 startVelocity) {
+	public void PlotTrajectory (Vector3 start, Vector3 startVelocity, Shot.ShotParams shotParams) {
 		if (Vector3.Distance (startVelocity, lastVelocity) > redrawThreshhold) {
 			lastVelocity = startVelocity;
 			print ("plotting trajectory - Velocity is -" + startVelocity);
@@ -71,7 +71,8 @@ public class TrajectoryManager : MonoBehaviour {
 			trajectory.SetPosition(0, start);
 			trajectory.SetPosition(1, start + (startVelocity * directionIndecatorLengthMultiplier));
 
-			trajectory.SetColors (startColor, endColor);
+
+			trajectory.SetColors (ColorsManager.colorMap[shotParams.color], ColorsManager.colorMap[shotParams.color]);
 		}
 	}
 
