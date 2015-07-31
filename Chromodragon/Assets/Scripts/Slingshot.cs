@@ -11,6 +11,8 @@ public class Slingshot : Photon.PunBehaviour {
     PhotonView photonView;
 	LineRenderer rubberBand;
 	TrajectoryManager trajectoryMngr;
+    Shot.ShotParams[] nextShots;
+    int nextShotIndex;
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +20,12 @@ public class Slingshot : Photon.PunBehaviour {
 		calibrateRubberBand ();
 		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
 		trajectoryMngr.init ();
-
+        nextShots = new Shot.ShotParams[3];
+        nextShotIndex = 0;
+        for (int i = 0; i < nextShots.Length; ++i)
+        {
+            nextShots[i] = new Shot.ShotParams();
+        }
 	}
 	
 	// Update is called once per frame
@@ -75,23 +82,35 @@ public class Slingshot : Photon.PunBehaviour {
 		updateRubberBand ();
 
 		if (diff.y > 0) {
+            Shot.ShotParams nextShot = this.GetNextShot();
             if (PhotonNetwork.inRoom)
             {
-                PhotonNetwork.RPC(photonView, "shoot", PhotonTargets.All, false, diff * velocityMultiplier);
+                PhotonNetwork.RPC(photonView, "shoot", PhotonTargets.All, false, new object[] {diff * velocityMultiplier, (int)nextShot.type, (int)nextShot.color});
             }
             else
             {
-                shoot(diff * velocityMultiplier);
+                shoot(diff * velocityMultiplier, (int)nextShot.type, (int)nextShot.color);
             }
 		}
 	}
 
+    Shot.ShotParams GetNextShot()
+    {
+        Shot.ShotParams next = this.nextShots[this.nextShotIndex];
+        this.nextShots[this.nextShotIndex] = new Shot.ShotParams();
+        this.nextShotIndex = (this.nextShotIndex + 1) % this.nextShots.Length;
+        return next;
+    }
+
 	//shoot
     [PunRPC]
-	void shoot(Vector3 dir)
+	void shoot(Vector3 dir, int intType, int intColor)
 	{
 		if(debugPrints) print("Shooot!");
-		var myShot = Instantiate (shot);
+        Shot.ShotTypes type = (Shot.ShotTypes)intType;
+        GameColors color = (GameColors)intColor;
+		GameObject myShot = (GameObject)Instantiate (shot);
+        myShot.GetComponent<Shot>().InitShot(new Shot.ShotParams(type, color));
 		var shotRigidBody = myShot.GetComponent<Rigidbody> ();
         shotRigidBody.transform.position = this.transform.position + mozzleOffset;
 		shotRigidBody.velocity = dir;
