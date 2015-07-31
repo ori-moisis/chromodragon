@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sligshot: {fileID: 126890, guid: 0c33b5ef2cb20b74c8558a4d0353cab3, type: 2}
-  slingshotName: Slingshot
+  slingshotName: 
   positions:
   - {x: 0, y: 1, z: -5}
   - {x: 4.32999992, y: 1, z: 2.5}
@@ -746,7 +746,7 @@ Camera:
   near clip plane: .300000012
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
