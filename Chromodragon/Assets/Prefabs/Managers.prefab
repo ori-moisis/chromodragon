@@ -42,6 +42,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreaturePrefab: {fileID: 171788, guid: b847eafcfa3d85e4ea32cfa12ac4fc64, type: 2}
   hexTilePrefab: {fileID: 168448, guid: cfcac5a9c09039d4eabc4c50249ed712, type: 2}
+  cameraPositions:
+  - {x: 0, y: 5, z: -10}
+  - {x: 8.65999985, y: 5, z: 5}
+  - {x: -8.65999985, y: 5, z: 5}
   creatures: {fileID: 0}
   tiles: {fileID: 0}
   hexRadius: 3
