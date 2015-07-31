@@ -92,7 +92,7 @@ public class Creature : MonoBehaviour
 	{
 		if (col.gameObject.tag == "shot") {
 			hit (col.gameObject.GetComponent<Shot> ());
-			Destroy (col.gameObject);
+			col.GetComponent<Shot> ().hit (gameObject);
 		}
 	}
 
