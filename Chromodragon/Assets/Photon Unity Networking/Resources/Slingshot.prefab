@@ -133,6 +133,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7563a153c42ccac4496db23caa99193c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startWidth: .200000003
+  endWidth: .200000003
+  redrawThreshhold: 1
+  material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  startColor: {r: 0, g: 1, b: 1, a: 1}
+  endColor: {r: 0, g: 1, b: .927999973, a: 1}
+  directionIndecatorLengthMultiplier: .25
 --- !u!114 &11444926
 MonoBehaviour:
   m_ObjectHideFlags: 1
