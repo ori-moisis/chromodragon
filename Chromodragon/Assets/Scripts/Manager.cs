@@ -18,6 +18,9 @@ public class Manager : MonoBehaviour
 	public Slider purpleScoreSlider;
 	public Slider orangeScoreSlider;
 
+	public GameObject nextBallsWidget;
+	NextBallsWidget nextBallsWidgetScript;
+
 	int numGreen = 0;
 	int numPurple = 0;
 	int numOrange = 0;
@@ -26,6 +29,9 @@ public class Manager : MonoBehaviour
 
 	public int hexRadius = 3;
 	public int currentTurn = 0;
+
+	public int nextShotIndex;
+	public Shot.ShotParams[] nextShots;
 
 	// Map hexagon-cube coordinates to creatures:
 	Creature[, ,] coordToCreature;
@@ -44,6 +50,13 @@ public class Manager : MonoBehaviour
 			Camera.main.transform.position = cameraPositions [PhotonNetwork.player.ID - 1];
 			Camera.main.transform.rotation = Quaternion.LookRotation (-Camera.main.transform.position, new Vector3 (0, 1, 0));
 		}
+		nextShotIndex = 0;
+		nextShots = new Shot.ShotParams[3];
+		for (int i = 0; i < nextShots.Length; ++i)
+		{
+			nextShots[i] = new Shot.ShotParams();
+		}
+		nextBallsWidgetScript = nextBallsWidget.GetComponent<NextBallsWidget> ();
 	}
 
 	
@@ -107,6 +120,17 @@ public class Manager : MonoBehaviour
 		orangeScoreSlider.value = numOrange / numCreatures;
 	}
 
+	public Shot.ShotParams GetNextShot()
+	{
+		Shot.ShotParams next = this.nextShots[this.nextShotIndex];
+		this.nextShots[this.nextShotIndex] = new Shot.ShotParams();
+		this.nextShotIndex = (this.nextShotIndex + 1) % this.nextShots.Length;
+
+		//update widget
+		nextBallsWidgetScript.dropNextBall();
+
+		return next;
+	}
 
 	// Initiates the creatures in the world according to the specified radius (number of creatures in each axis excluding the middle one)
 	void initWorld (int gridRadius)

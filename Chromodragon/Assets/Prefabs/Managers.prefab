@@ -48,7 +48,13 @@ MonoBehaviour:
   - {x: -8.65999985, y: 5, z: 5}
   creatures: {fileID: 0}
   tiles: {fileID: 0}
+  greenScoreSlider: {fileID: 0}
+  purpleScoreSlider: {fileID: 0}
+  orangeScoreSlider: {fileID: 0}
+  nextBallsWidget: {fileID: 0}
   hexRadius: 3
+  currentTurn: 0
+  nextShotIndex: 0
 --- !u!114 &11439326
 MonoBehaviour:
   m_ObjectHideFlags: 1

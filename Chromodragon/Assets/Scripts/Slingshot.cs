@@ -11,20 +11,12 @@ public class Slingshot : Photon.PunBehaviour {
     PhotonView photonView;
 	LineRenderer rubberBand;
 	TrajectoryManager trajectoryMngr;
-    Shot.ShotParams[] nextShots;
-    int nextShotIndex;
 
 	// Use this for initialization
 	void Start () {
         photonView = GetComponent<PhotonView>();
 		calibrateRubberBand ();
 		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
-        nextShots = new Shot.ShotParams[3];
-        nextShotIndex = 0;
-        for (int i = 0; i < nextShots.Length; ++i)
-        {
-            nextShots[i] = new Shot.ShotParams();
-        }
 	}
 	
 	// Update is called once per frame
@@ -76,7 +68,7 @@ public class Slingshot : Photon.PunBehaviour {
 		
 		//plot trajectory
 		Vector3 diff = initialPosition - transform.position;
-		trajectoryMngr.PlotTrajectory (initialPosition,  diff * velocityMultiplier , this.nextShots[this.nextShotIndex]);
+		trajectoryMngr.PlotTrajectory (initialPosition,  diff * velocityMultiplier , Manager.instance.nextShots[Manager.instance.nextShotIndex]);
 
 		if(debugPrints) print ("curScreenPoint - " + curScreenPoint + "\ncurPosition - " + curPosition);
 	}
@@ -102,7 +94,7 @@ public class Slingshot : Photon.PunBehaviour {
 
 		//shoot
 		if (diff.y > 0) {
-			Shot.ShotParams nextShot = this.GetNextShot();
+			Shot.ShotParams nextShot = Manager.instance.GetNextShot();
             if (PhotonNetwork.inRoom)
             {
                 PhotonNetwork.RPC(photonView, "shoot", PhotonTargets.All, false, new object[] {diff * velocityMultiplier, (int)nextShot.type, (int)nextShot.color});
@@ -114,13 +106,7 @@ public class Slingshot : Photon.PunBehaviour {
 		}
 	}
 
-    Shot.ShotParams GetNextShot()
-    {
-        Shot.ShotParams next = this.nextShots[this.nextShotIndex];
-        this.nextShots[this.nextShotIndex] = new Shot.ShotParams();
-        this.nextShotIndex = (this.nextShotIndex + 1) % this.nextShots.Length;
-        return next;
-    }
+    
 
 	//shoot
     [PunRPC]
