@@ -18,6 +18,9 @@ public class Manager : MonoBehaviour
 	public Slider purpleScoreSlider;
 	public Slider orangeScoreSlider;
 
+    public Image[] turnImages;
+    public GameColors[] targetColors;
+
 	int numGreen = 0;
 	int numPurple = 0;
 	int numOrange = 0;
@@ -43,6 +46,7 @@ public class Manager : MonoBehaviour
 		if (PhotonNetwork.inRoom) {
 			Camera.main.transform.position = cameraPositions [PhotonNetwork.player.ID - 1];
 			Camera.main.transform.rotation = Quaternion.LookRotation (-Camera.main.transform.position, new Vector3 (0, 1, 0));
+            setCurrentTurnImgColor(true);
 		}
 	}
 
@@ -83,6 +87,32 @@ public class Manager : MonoBehaviour
 		return neighbours;
 	}
 
+    int currentTurnIndex()
+    {
+        return (((currentTurn - PhotonNetwork.player.ID + 1) % 3) + 3) % 3;
+    }
+
+    void setCurrentTurnImgColor(bool isSet)
+    {
+        if (PhotonNetwork.inRoom)
+        {
+            Color newColor = ColorsManager.colorMap[this.targetColors[currentTurn]];
+            newColor.a = isSet ? 10 : 0;
+            this.turnImages[currentTurnIndex()].color = newColor;
+        }
+    }
+
+    public void updateTurn()
+    {
+        setCurrentTurnImgColor(false);
+        currentTurn = (currentTurn + 1) % PhotonNetwork.playerList.Length;
+        setCurrentTurnImgColor(true);
+    }
+
+    public bool isMyTurn()
+    {
+        return (currentTurn + 1) == PhotonNetwork.player.ID;
+    }
 
 	public void updateScore (GameColors prevColor, GameColors newColor)
 	{
