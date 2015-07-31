@@ -98,7 +98,7 @@ public class Manager : MonoBehaviour {
                         // Create a new creature:
                         GameObject newCreature = Instantiate(CreaturePrefab);
                         newCreature.transform.parent = creatures.transform;
-                        newCreature.transform.position = new Vector3(newX, 0.25f, newZ);
+                        newCreature.transform.position = new Vector3(newX, 0.75f, newZ);
 
                         // add creature to data structures
                         coordToCreature[x, y, z] = newCreature;
