@@ -9,10 +9,7 @@ public class Creature : MonoBehaviour
 
 	public int amountToSpit;
 
-	public SpriteRenderer bodyRenderer;
-    public SpriteRenderer eyesRenderer;
-
-
+	private SpriteRenderer sprite;
 	private Animator animator;
 
 	private static int EAT_TRIGGER = Animator.StringToHash ("eat");
@@ -26,26 +23,23 @@ public class Creature : MonoBehaviour
 
 	protected void Awake ()
 	{
-        animator = GetComponent<Animator>();
+		sprite = GetComponentInChildren<SpriteRenderer> ();
+		animator = GetComponent<Animator> ();
 		nextColor = currentColor;
 		currentColor = GameColors.White;
 		SetColor ();
 	}
 
-    public void SetLayerOrders(int order)
-    {
-        //bodyRenderer.sortingOrder = 2*order;
-        //eyesRenderer.sortingOrder = 2*order + 1;
-    }
-
-	public void EatColor (GameColors color)
+	public void EatColor (Shot shot)
 	{
-        GameColors prevColor = currentColor;
-		if (currentColor.IsRivalColor (color)) {
-//			SpitColor (color);
+		if (currentColor.IsRivalColor (shot.shotParams.color)) {
+			if (shot.shotParams.timeToLive > 0) {
+				--shot.shotParams.timeToLive;
+				SpitColor (shot);
+			}
 		} else {
-			nextColor = currentColor.Add (color);
-            Manager.instance.updateScore(prevColor, nextColor);
+			nextColor = currentColor.Add (shot.shotParams.color);
+			Manager.instance.updateScore (currentColor, nextColor);
 			animator.SetTrigger (EAT_TRIGGER);
 		}
         
@@ -85,7 +79,7 @@ public class Creature : MonoBehaviour
 	{
 		if (nextColor != currentColor) {
 			currentColor = nextColor;
-			bodyRenderer.color = currentColor.GetColor ();
+			sprite.color = currentColor.GetColor ();
 		}
 	}
 

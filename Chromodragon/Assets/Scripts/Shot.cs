@@ -7,35 +7,39 @@ public class Shot : MonoBehaviour
 	private Rigidbody rigidBody;
 	private SpriteRenderer spriteRenderer;
 
-    public enum ShotTypes : int
-    {
-        ColorShot
-        //SpecialShot //?
-    }
+	public enum ShotTypes : int
+	{
+		ColorShot
+		//SpecialShot //?
+	}
 
-    static GameColors[] possibleColors = new GameColors[] { GameColors.Red, GameColors.Yellow, GameColors.Blue };
-    static Array possibleTypes = Enum.GetValues(typeof(ShotTypes));
+	static GameColors[] possibleColors = new GameColors[] { GameColors.Red, GameColors.Yellow, GameColors.Blue };
+	static Array possibleTypes = Enum.GetValues (typeof(ShotTypes));
 
-    public class ShotParams
-    {
-        public ShotTypes type;
-        public GameColors color;
+	[Serializable]
+	public class ShotParams
+	{
+		public ShotTypes type;
+		public GameColors color;
+		public int timeToLive;
 
-        public ShotParams()
-        {
-            type = (ShotTypes)possibleTypes.GetValue((int)(UnityEngine.Random.value * possibleTypes.Length));
-            color = possibleColors[(int)(UnityEngine.Random.value * possibleColors.Length)];
-        }
+		public ShotParams ()
+		{
+			type = (ShotTypes)possibleTypes.GetValue ((int)(UnityEngine.Random.value * possibleTypes.Length));
+			color = possibleColors [(int)(UnityEngine.Random.value * possibleColors.Length)];
+			timeToLive = 2;
+		}
 
-        public ShotParams(ShotTypes type, GameColors color)
-        {
-            this.type = type;
-            this.color = color;
-        }
-    }
+		public ShotParams (ShotTypes type, GameColors color)
+		{
+			this.type = type;
+			this.color = color;
+			timeToLive = 2;
+		}
+	}
 
 	public float gravityAddition;
-    public ShotParams shotParams;
+	public ShotParams shotParams;
 
 	protected void Awake ()
 	{
@@ -45,8 +49,8 @@ public class Shot : MonoBehaviour
 
 	public void InitShot (ShotParams shotParams)
 	{
-        this.shotParams = shotParams;
-        this.SetColor(ColorsManager.colorMap[this.shotParams.color]);
+		this.shotParams = shotParams;
+		this.SetColor (ColorsManager.colorMap [this.shotParams.color]);
 	}
 
 	private void SetColor (Color color)
