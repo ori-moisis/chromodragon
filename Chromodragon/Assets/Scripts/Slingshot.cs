@@ -7,10 +7,12 @@ public class Slingshot : MonoBehaviour {
 	public float velocityMultiplier; //how strong to shot compared to pull
 	public GameObject shot; //what to shoot
 	public bool debugPrints = false;
+    public int slingId;
+    PhotonView photonView;
 
 	// Use this for initialization
 	void Start () {
-	
+        photonView = GetComponent<PhotonView>();
 	}
 	
 	// Update is called once per frame
@@ -48,17 +50,28 @@ public class Slingshot : MonoBehaviour {
 		transform.position = initialPosition;
 
 		if (diff.y > 0) {
-			shoot (diff * velocityMultiplier);
+            if (PhotonNetwork.inRoom)
+            {
+                if (PhotonNetwork.player.ID == slingId)
+                {
+                    PhotonNetwork.RPC(photonView, "shoot", PhotonTargets.All, false, new object[] {this.transform.position, diff * velocityMultiplier});
+                }
+            }
+            else
+            {
+                shoot(this.transform.position, diff * velocityMultiplier);
+            }
 		}
 	}
 
 	//shoot
-	void shoot(Vector3 dir)
+    [PunRPC]
+	void shoot(Vector3 pos, Vector3 dir)
 	{
 		if(debugPrints) print("Shooot!");
 		var myShot = Instantiate (shot);
 		var shotRigidBody = myShot.GetComponent<Rigidbody> ();
-		shotRigidBody.transform.position = this.transform.position + mozzleOffset;
+		shotRigidBody.transform.position = pos + mozzleOffset;
 		shotRigidBody.velocity = dir;
 	}
 }

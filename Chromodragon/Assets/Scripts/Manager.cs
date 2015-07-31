@@ -6,6 +6,7 @@ public class Manager : MonoBehaviour {
 
     public GameObject CreaturePrefab;
     public GameObject hexTilePrefab;
+    public Vector3[] cameraPositions;
 
     // Map hexagon-cube coordinates to creatures:
     GameObject[, ,] coordToCreature;
@@ -16,6 +17,11 @@ public class Manager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	    initWorld(3);
+        if (PhotonNetwork.inRoom)
+        {
+            Camera.main.transform.position = cameraPositions[PhotonNetwork.player.ID - 1];
+            Camera.main.transform.rotation = Quaternion.LookRotation(-Camera.main.transform.position, new Vector3(0, 1, 0));
+        }
 	}
 	
 	// Update is called once per frame
