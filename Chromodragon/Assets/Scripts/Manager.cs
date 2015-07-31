@@ -13,6 +13,7 @@ public class Manager : MonoBehaviour {
     public GameObject tiles;
 
     public int hexRadius = 3;
+    public int currentTurn = 0;
 
     // Map hexagon-cube coordinates to creatures:
     GameObject[, ,] coordToCreature;
@@ -93,12 +94,13 @@ public class Manager : MonoBehaviour {
                     {
                         // Calculate world coordinates from cube-hexagon coordinates:
                         float newX = x - Mathf.Cos(Mathf.PI / 3) * (y + z);
+                        float newY = Random.value * 0.2f;
                         float newZ = Mathf.Sin(Mathf.PI / 3) * (y - z);
 
                         // Create a new creature:
                         GameObject newCreature = Instantiate(CreaturePrefab);
                         newCreature.transform.parent = creatures.transform;
-                        newCreature.transform.position = new Vector3(newX, 0.25f, newZ);
+                        newCreature.transform.position = new Vector3(newX, newY + 0.0f, newZ);
 
                         // add creature to data structures
                         coordToCreature[x, y, z] = newCreature;
@@ -108,7 +110,7 @@ public class Manager : MonoBehaviour {
                         // Create a new tile:
                         GameObject newTile = Instantiate(hexTilePrefab);
                         newTile.transform.parent = tiles.transform;
-                        newTile.transform.position = new Vector3(newX, 0.01f, newZ);
+                        newTile.transform.position = new Vector3(newX, newY + 0, newZ);
                     }
                 }
             }

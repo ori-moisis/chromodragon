@@ -9,6 +9,7 @@ public class Lobby : MonoBehaviour {
 	void Start () {
         PhotonNetwork.autoCleanUpPlayerObjects = true;
         PhotonNetwork.ConnectUsingSettings("v0.1");
+        PhotonNetwork.automaticallySyncScene = true;
         Debug.Log("Starting");
 	}
 
@@ -65,7 +66,8 @@ public class Lobby : MonoBehaviour {
 
     void EnoughPlayers()
     {
-        Application.LoadLevel("Game");
+        PhotonNetwork.LoadLevel("Game");
+        //Application.LoadLevel("Game");
     }
 
     void OnPhotonPlayerDisconnected()
