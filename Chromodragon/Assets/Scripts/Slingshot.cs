@@ -76,7 +76,7 @@ public class Slingshot : Photon.PunBehaviour {
 		
 		//plot trajectory
 		Vector3 diff = initialPosition - transform.position;
-		trajectoryMngr.PlotTrajectory (initialPosition,  diff * velocityMultiplier );
+		trajectoryMngr.PlotTrajectory (initialPosition,  diff * velocityMultiplier , this.nextShots[this.nextShotIndex]);
 
 		if(debugPrints) print ("curScreenPoint - " + curScreenPoint + "\ncurPosition - " + curPosition);
 	}
