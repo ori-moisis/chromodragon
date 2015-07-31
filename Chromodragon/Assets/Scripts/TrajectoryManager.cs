@@ -19,6 +19,7 @@ public class TrajectoryManager : MonoBehaviour {
 		trajectory.SetVertexCount (2);
 		trajectory.useWorldSpace = true;
 		lastVelocity = new Vector3 (0, 0, 0);
+		hideTrajectory();
 	}
 
 
