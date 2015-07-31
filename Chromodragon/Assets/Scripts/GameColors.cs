@@ -15,21 +15,21 @@ public enum GameColors
 
 public static class GameColorsExtensions
 {
-	public static GameColors Add(this GameColors color, GameColors colorToAdd)
+	public static GameColors Add (this GameColors color, GameColors colorToAdd)
 	{
 		switch (colorToAdd) {
 		case GameColors.Blue:
-			return color.AddBlue();
+			return color.AddBlue ();
 		case GameColors.Red:
-			return color.AddRed();
+			return color.AddRed ();
 		case GameColors.Yellow:
-			return color.AddYellow();
+			return color.AddYellow ();
 		default:
 			return color;
 		}
 	}
 
-	public static GameColors AddBlue(this GameColors color)
+	public static GameColors AddBlue (this GameColors color)
 	{
 		switch (color) {
 		case GameColors.White:
@@ -43,7 +43,7 @@ public static class GameColorsExtensions
 		}
 	}
 
-	public static GameColors AddRed(this GameColors color)
+	public static GameColors AddRed (this GameColors color)
 	{
 		switch (color) {
 		case GameColors.White:
@@ -57,7 +57,7 @@ public static class GameColorsExtensions
 		}
 	}
 
-	public static GameColors AddYellow(this GameColors color)
+	public static GameColors AddYellow (this GameColors color)
 	{
 		switch (color) {
 		case GameColors.White:
@@ -71,23 +71,30 @@ public static class GameColorsExtensions
 		}
 	}
 
-	public static bool HasBlue(this GameColors color)
+	public static bool HasBlue (this GameColors color)
 	{
 		return color == GameColors.Blue || color == GameColors.Purple || color == GameColors.Green;
 	}
 
-	public static bool HasRed(this GameColors color)
+	public static bool HasRed (this GameColors color)
 	{
 		return color == GameColors.Red || color == GameColors.Purple || color == GameColors.Orange;
 	}
 
-	public static bool HasYellow(this GameColors color)
+	public static bool HasYellow (this GameColors color)
 	{
 		return color == GameColors.Yellow || color == GameColors.Orange || color == GameColors.Green;
 	}
 
-	public static Color GetColor(this GameColors color)
+	public static Color GetColor (this GameColors color)
 	{
-		return ColorsManager.colorMap[color];
+		return ColorsManager.colorMap [color];
+	}
+
+	public static bool IsRivalColor (this GameColors color, GameColors otherColor)
+	{
+		return (color == GameColors.Green && otherColor == GameColors.Red) || 
+			(color == GameColors.Orange && otherColor == GameColors.Blue) ||
+			(color == GameColors.Purple && otherColor == GameColors.Yellow);
 	}
 }

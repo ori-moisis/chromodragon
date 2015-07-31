@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sligshot: {fileID: 126890, guid: 0c33b5ef2cb20b74c8558a4d0353cab3, type: 2}
-  slingshotName: Slingshot
+  slingshotName: 
   positions:
   - {x: 0, y: 1, z: -5}
   - {x: 4.32999992, y: 1, z: 2.5}
@@ -735,8 +735,8 @@ Camera:
   m_GameObject: {fileID: 892468116}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: .474509805, g: .474509805, b: .474509805, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
