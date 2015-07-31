@@ -24,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 188660}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -.249351025, y: .461818218, z: -.0546636581}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -35,12 +35,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 188660}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20ab752fd44d80b4eb3221ad22145d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CreaturePrefab: {fileID: 171788, guid: b847eafcfa3d85e4ea32cfa12ac4fc64, type: 2}
+  CreaturePrefab: {fileID: 11475004, guid: b847eafcfa3d85e4ea32cfa12ac4fc64, type: 2}
   hexTilePrefab: {fileID: 168448, guid: cfcac5a9c09039d4eabc4c50249ed712, type: 2}
   cameraPositions:
   - {x: 0, y: 5, z: -10}
@@ -60,12 +60,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 781c522e1d4a142589f0cb44e7db9ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blue: {r: 0, g: 0, b: 1, a: 1}
-  red: {r: 1, g: 0, b: 0, a: 1}
-  yellow: {r: 1, g: 1, b: 0, a: 1}
-  purple: {r: 1, g: 0, b: 1, a: 1}
+  blue: {r: .367647052, g: .617647052, b: 1, a: 1}
+  red: {r: .933823526, g: .321999997, b: .329584748, a: 1}
+  yellow: {r: 1, g: .990999997, b: .196999997, a: 1}
+  purple: {r: .779411793, g: .203000009, b: .833999991, a: 1}
   green: {r: 0, g: 1, b: 0, a: 1}
-  orange: {r: 1, g: .572000027, b: 0, a: 1}
+  orange: {r: 1, g: .477999985, b: 0, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

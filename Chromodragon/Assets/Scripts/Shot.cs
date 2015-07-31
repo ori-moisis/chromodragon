@@ -43,7 +43,7 @@ public class Shot : MonoBehaviour
 
 		switch (shotType) {
 		case ShotTypes.ColorShot:
-			SetColor (ColorsManager.colorMap [shotColor]);
+			SetColor (shotColor.GetColor ());
 			break;
 		case ShotTypes.SpecialShot:
 			SetColor (Color.gray);

@@ -1,39 +1,66 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Creature : MonoBehaviour
 {
-
 	public GameColors currentColor;
 	private GameColors nextColor;
+
+	public int amountToSpit;
 
 	private SpriteRenderer sprite;
 	private Animator animator;
 
 	private static int EAT_TRIGGER = Animator.StringToHash ("eat");
 
-#if UNITY_EDITOR
-	protected void OnDrawGizmos ()
-	{
-		Awake ();
-	}
-#endif
+//#if UNITY_EDITOR
+//	protected void OnDrawGizmos ()
+//	{
+//		Awake ();
+//	}
+//#endif
 
 	protected void Awake ()
 	{
 		sprite = GetComponentInChildren<SpriteRenderer> ();
 		animator = GetComponent<Animator> ();
-	}
-
-	protected void Update ()
-	{
-	
+		nextColor = currentColor;
+		currentColor = GameColors.White;
+		SetColor ();
 	}
 
 	public void EatColor (GameColors color)
 	{
-		nextColor = currentColor.Add (color);
-		animator.SetTrigger (EAT_TRIGGER);
+		if (currentColor.IsRivalColor (color)) {
+//			SpitColor (color);
+		} else {
+			nextColor = currentColor.Add (color);
+			animator.SetTrigger (EAT_TRIGGER);
+		}
+        
+	}
+
+	public void SpitColor (GameColors color)
+	{
+		var neighbors = Manager.instance.getNeighbours (this);
+
+		int amountToDelete = neighbors.Count - amountToSpit;
+
+		while (amountToDelete > 0) {
+			int lastNeighbor = amountToDelete + amountToSpit - 1;
+			int neighborToDelete = Random.Range (0, lastNeighbor);
+			neighbors [neighborToDelete] = neighbors [lastNeighbor];
+			neighbors [lastNeighbor] = null;
+			--amountToDelete;
+		}
+
+		for (int i = 0; i < amountToSpit; ++i) {
+//			if (neighbor != null) {
+			Debug.Log ("Spitting to neighbor " + i);
+			neighbors [i].EatColor (color);
+//			}
+		}
 	}
 
 	public void ClearColors ()
@@ -53,12 +80,11 @@ public class Creature : MonoBehaviour
 	}
 
 	//collision callback
-	void OnCollisionEnter (Collision col)
+	void OnTriggerEnter (Collider col)
 	{
 		if (col.gameObject.tag == "shot") {
-//			Destroy (col.gameObject);
-			col.gameObject.SetActive (false);
 			hit (col.gameObject.GetComponent<Shot> ());
+			Destroy (col.gameObject);
 		}
 	}
 
