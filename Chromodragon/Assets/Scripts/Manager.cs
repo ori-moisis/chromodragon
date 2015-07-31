@@ -13,6 +13,7 @@ public class Manager : MonoBehaviour {
     public GameObject tiles;
 
     public int hexRadius = 3;
+    public int currentTurn = 0;
 
     // Map hexagon-cube coordinates to creatures:
     GameObject[, ,] coordToCreature;

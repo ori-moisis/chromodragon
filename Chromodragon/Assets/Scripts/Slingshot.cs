@@ -33,9 +33,26 @@ public class Slingshot : Photon.PunBehaviour {
 	
 	}
 
+    bool IsDisabled()
+    {
+        if (! PhotonNetwork.inRoom)
+        {
+            return false;
+        }
+        if (! photonView.isMine)
+        {
+            return true;
+        }
+        if ((Manager.instance.currentTurn + 1) != PhotonNetwork.player.ID)
+        {
+            return true;
+        }
+        return false;
+    }
+
 	//start to drag
 	void OnMouseDown() {
-        if (PhotonNetwork.inRoom && !photonView.isMine)
+        if (this.IsDisabled())
         {
             return;
         }
@@ -48,11 +65,11 @@ public class Slingshot : Photon.PunBehaviour {
 	
 	void OnMouseDrag() 
 	{
-        if (PhotonNetwork.inRoom && !photonView.isMine)
+        if (this.IsDisabled())
         {
             return;
         }
-		//calculate new dragged position
+        //calculate new dragged position
 		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
 		transform.position = curPosition;
@@ -67,7 +84,7 @@ public class Slingshot : Photon.PunBehaviour {
 	
 	void OnMouseUp()
 	{
-        if (PhotonNetwork.inRoom && !photonView.isMine)
+        if (this.IsDisabled())
         {
             return;
         }
@@ -114,6 +131,7 @@ public class Slingshot : Photon.PunBehaviour {
 		var shotRigidBody = myShot.GetComponent<Rigidbody> ();
         shotRigidBody.transform.position = this.transform.position + mozzleOffset;
 		shotRigidBody.velocity = dir;
+        Manager.instance.currentTurn = (Manager.instance.currentTurn + 1) % PhotonNetwork.playerList.Length;
 	}
 
 	//calibrate rubber bands once
