@@ -158,6 +158,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentColor: 0
   amountToSpit: 2
+  bodyRenderer: {fileID: 21279364}
+  eyesRenderer: {fileID: 21243744}
 --- !u!135 &13555230
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -235,7 +237,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: amountToSpit
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
@@ -244,6 +246,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.y
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

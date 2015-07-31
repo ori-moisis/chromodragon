@@ -1,17 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Lobby : MonoBehaviour {
 
     public int numPlayers;
+    public GameObject waitingForPlayersText;
+    
 
 	// Use this for initialization
 	void Start () {
         PhotonNetwork.autoCleanUpPlayerObjects = true;
-        PhotonNetwork.ConnectUsingSettings("v0.1");
         PhotonNetwork.automaticallySyncScene = true;
         Debug.Log("Starting");
 	}
+
+    public void StartGame()
+    {
+        PhotonNetwork.ConnectUsingSettings("v0.1");
+        waitingForPlayersText.GetComponent<Text>().text = "Waiting for other players";
+    }
 
     void OnConnectedToMaster()
     {
@@ -67,16 +77,10 @@ public class Lobby : MonoBehaviour {
     void EnoughPlayers()
     {
         PhotonNetwork.LoadLevel("Game");
-        //Application.LoadLevel("Game");
     }
 
     void OnPhotonPlayerDisconnected()
     {
         Debug.Log("Player left");
     }
-
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

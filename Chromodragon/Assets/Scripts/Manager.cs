@@ -18,6 +18,8 @@ public class Manager : MonoBehaviour
 	public Slider purpleScoreSlider;
 	public Slider orangeScoreSlider;
 
+    public Image[] turnImages;
+	public GameColors[] targetColors;
 	public GameObject nextBallsWidget;
 	NextBallsWidget nextBallsWidgetScript;
 
@@ -49,6 +51,7 @@ public class Manager : MonoBehaviour
 		if (PhotonNetwork.inRoom) {
 			Camera.main.transform.position = cameraPositions [PhotonNetwork.player.ID - 1];
 			Camera.main.transform.rotation = Quaternion.LookRotation (-Camera.main.transform.position, new Vector3 (0, 1, 0));
+            setCurrentTurnImgColor(true);
 		}
 		nextShotIndex = 0;
 		nextShots = new Shot.ShotParams[3];
@@ -96,8 +99,34 @@ public class Manager : MonoBehaviour
 		return neighbours;
 	}
 
+    int currentTurnIndex()
+    {
+        return (((currentTurn - PhotonNetwork.player.ID + 1) % 3) + 3) % 3;
+    }
 
-	void updateScore (GameColors prevColor, GameColors newColor)
+    void setCurrentTurnImgColor(bool isSet)
+    {
+        if (PhotonNetwork.inRoom)
+        {
+            Color newColor = ColorsManager.colorMap[this.targetColors[currentTurn]];
+            newColor.a = isSet ? 10 : 0;
+            this.turnImages[currentTurnIndex()].color = newColor;
+        }
+    }
+
+    public void updateTurn()
+    {
+        setCurrentTurnImgColor(false);
+        currentTurn = (currentTurn + 1) % PhotonNetwork.playerList.Length;
+        setCurrentTurnImgColor(true);
+    }
+
+    public bool isMyTurn()
+    {
+        return (currentTurn + 1) == PhotonNetwork.player.ID;
+    }
+
+	public void updateScore (GameColors prevColor, GameColors newColor)
 	{
 		if (prevColor == GameColors.Green) {
 			numGreen--;
@@ -115,9 +144,13 @@ public class Manager : MonoBehaviour
 			numOrange++;
 		}
 
-		greenScoreSlider.value = numGreen / numCreatures;
-		purpleScoreSlider.value = numPurple / numCreatures;
-		orangeScoreSlider.value = numOrange / numCreatures;
+		greenScoreSlider.value = (float)(numGreen) / numCreatures;
+		purpleScoreSlider.value = (float)(numPurple) / numCreatures;
+		orangeScoreSlider.value = (float)(numOrange) / numCreatures;
+
+        Debug.Log(greenScoreSlider.value);
+        Debug.Log(purpleScoreSlider.value);
+        Debug.Log(orangeScoreSlider.value);
 	}
 
 	public Shot.ShotParams GetNextShot()
@@ -143,14 +176,16 @@ public class Manager : MonoBehaviour
 				for (int z = 0; z <= gridRadius; ++z) {
 					if (x == 0 || y == 0 || z == 0) {
 						// Calculate world coordinates from cube-hexagon coordinates:
-						float newX = x - Mathf.Cos (Mathf.PI / 3) * (y + z);
-						float newY = Random.value * 0.1f;
-						float newZ = Mathf.Sin (Mathf.PI / 3) * (y - z);
+						float newX = 1.05f* (x - Mathf.Cos (Mathf.PI / 3) * (y + z));
+						float newY = Random.value * 0.15f;
+						float newZ = 0.8f * (Mathf.Sin (Mathf.PI / 3) * (y - z));
 
 						// Create a new creature:
 						Creature newCreature = Instantiate (CreaturePrefab)as Creature;
 						newCreature.transform.parent = creatures.transform;
-						newCreature.transform.position = new Vector3 (newX, 0.25f, newZ);
+                        newCreature.transform.position = new Vector3(newX, newY, newZ);
+                        Debug.Log(newZ);
+                        newCreature.SetLayerOrders((int)Mathf.Abs(20 - 2*Mathf.Abs(5+newZ) ));
 
 						// add creature to data structures
 						coordToCreature [x, y, z] = newCreature;
@@ -160,7 +195,7 @@ public class Manager : MonoBehaviour
 						// Create a new tile:
 						GameObject newTile = Instantiate (hexTilePrefab);
 						newTile.transform.parent = tiles.transform;
-						newTile.transform.position = new Vector3 (newX, newY + 0, newZ);
+						newTile.transform.position = new Vector3 (newX, newY, newZ);
 
 
 						++numCreatures;

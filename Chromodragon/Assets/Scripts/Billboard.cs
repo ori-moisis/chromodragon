@@ -2,6 +2,8 @@
 
 public class Billboard : MonoBehaviour { 
     void Update() {
-        transform.LookAt(Camera.main.transform.position, Vector3.up); 
+        //Vector3 newVector = new Vector3(0, 0, 0);
+        //transform.LookAt(Camera.main.transform.position + newVector, Vector3.up);
+        transform.rotation = Quaternion.LookRotation(-Camera.main.transform.position, Vector3.up); 
     } 
 }

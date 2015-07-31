@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 430640}
   - 212: {fileID: 21297072}
-  - 65: {fileID: 6517856}
+  - 114: {fileID: 11461498}
   m_Layer: 0
   m_Name: hexTile
   m_TagString: Untagged
@@ -29,18 +29,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!65 &6517856
-BoxCollider:
+--- !u!114 &11461498
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 168448}
-  m_Material: {fileID: 13400000, guid: 5f031e1b9dd3566499f656679d64fead, type: 2}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 6, y: 6, z: .200000003}
-  m_Center: {x: 0, y: -0, z: -.100000001}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5755d1d6c5f9b74db09484d75aedf0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &21297072
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -34,7 +34,7 @@ public class Slingshot : Photon.PunBehaviour {
         {
             return true;
         }
-        if ((Manager.instance.currentTurn + 1) != PhotonNetwork.player.ID)
+        if (! Manager.instance.isMyTurn ())
         {
             return true;
         }
@@ -120,7 +120,7 @@ public class Slingshot : Photon.PunBehaviour {
 		var shotRigidBody = myShot.GetComponent<Rigidbody> ();
         shotRigidBody.transform.position = this.transform.position + mozzleOffset;
 		shotRigidBody.velocity = dir;
-        Manager.instance.currentTurn = (Manager.instance.currentTurn + 1) % PhotonNetwork.playerList.Length;
+        Manager.instance.updateTurn();
 	}
 
 	//calibrate rubber bands once
