@@ -27,7 +27,7 @@ public Vector3[] cameraPositions;
             instance = this;
         }
         initWorld(hexRadius);
-	if (PhotonNetwork.inRoom)
+	    if (PhotonNetwork.inRoom)
         {
             Camera.main.transform.position = cameraPositions[PhotonNetwork.player.ID - 1];
             Camera.main.transform.rotation = Quaternion.LookRotation(-Camera.main.transform.position, new Vector3(0, 1, 0));
