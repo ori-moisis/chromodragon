@@ -887,6 +887,10 @@ Prefab:
       propertyPath: targetColors.Array.data[2]
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 11406988, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
+      propertyPath: hexTilePrefab
+      value: 
+      objectReference: {fileID: 143670, guid: 78f194c78385a2c4abcd3ae6251b1c69, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
   m_IsPrefabParent: 0
