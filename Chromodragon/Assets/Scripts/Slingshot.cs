@@ -9,6 +9,8 @@ public class Slingshot : Photon.PunBehaviour
 	public GameObject shot; //what to shoot
 	public bool debugPrints = false;
 	public int slingId;
+	public GameObject ballToShootHint;
+	SpriteRenderer ballToSoohtHintRenderer;
 	PhotonView photonView;
 	LineRenderer rubberBand;
 	TrajectoryManager trajectoryMngr;
@@ -24,6 +26,9 @@ public class Slingshot : Photon.PunBehaviour
 			this.transform.parent.GetComponent<Renderer> ().enabled = false;
 			GetComponentInParent<Renderer> ().enabled = false;
 		}
+		ballToSoohtHintRenderer = ballToShootHint.GetComponent<SpriteRenderer> ();
+		ballToSoohtHintRenderer.color = Color.clear;
+
 	}
 	
 	// Update is called once per frame
@@ -58,6 +63,9 @@ public class Slingshot : Photon.PunBehaviour
 
 		if (debugPrints)
 			print ("offset - " + offset);
+
+
+
 	}
 	
 	void OnMouseDrag ()
@@ -74,7 +82,9 @@ public class Slingshot : Photon.PunBehaviour
 		
 		//plot trajectory
 		Vector3 diff = initialPosition - transform.position;
-		trajectoryMngr.PlotTrajectory (initialPosition, diff * velocityMultiplier, Manager.instance.nextShots [Manager.instance.nextShotIndex]);
+		Shot.ShotParams sParams = Manager.instance.nextShots [Manager.instance.nextShotIndex];
+		trajectoryMngr.PlotTrajectory (initialPosition, diff * velocityMultiplier, sParams);
+		ballToSoohtHintRenderer.color = sParams.GetColor ();;
 
 		AudioManager.StartSlingshot ();
 
@@ -84,6 +94,8 @@ public class Slingshot : Photon.PunBehaviour
 	
 	void OnMouseUp ()
 	{
+		ballToSoohtHintRenderer.color = Color.clear;
+
 		if (this.IsDisabled ()) {
 			return;
 		}
