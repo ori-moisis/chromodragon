@@ -18,6 +18,7 @@ public class Manager : MonoBehaviour
 	public Slider orangeScoreSlider;
 
     public int numTurns = 20;
+    public Text turnsText;
 
     public Image[] turnImages;
 	public GameColors[] targetColors;
@@ -68,6 +69,8 @@ public class Manager : MonoBehaviour
         {
             nextShots[i] = new Shot.ShotParams();
         }
+
+        turnsText.text = string.Format("Turns Remaining: {0}", numTurns);
 	}
 
 	
@@ -134,6 +137,14 @@ public class Manager : MonoBehaviour
 
     public void updateTurn()
     {
+        --numTurns;
+        if (numTurns == 0)
+        {
+
+        }
+
+        turnsText.text = string.Format("Turns Remaining: {0}", numTurns);
+
         setCurrentTurnImgColor(false);
         currentTurn = (currentTurn + 1) % PhotonNetwork.playerList.Length;
         setCurrentTurnImgColor(true);
@@ -162,9 +173,11 @@ public class Manager : MonoBehaviour
 			numOrange++;
 		}
 
-		greenScoreSlider.value = (float)(numGreen) / numCreatures;
-		purpleScoreSlider.value = (float)(numPurple) / numCreatures;
-		orangeScoreSlider.value = (float)(numOrange) / numCreatures;
+        int numMixed = Mathf.Max(1, numGreen + numPurple + numOrange) ;
+
+        greenScoreSlider.value = (float)(numGreen) / numMixed;
+        purpleScoreSlider.value = (float)(numPurple) / numMixed;
+        orangeScoreSlider.value = (float)(numOrange) / numMixed;
 	}
 
 	public Shot.ShotParams GetNextShot()
