@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 486066}
   - 212: {fileID: 21200236}
-  - 114: {fileID: 11496144}
+  - 114: {fileID: 11449210}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -28,7 +28,6 @@ GameObject:
   - 54: {fileID: 5432956}
   - 114: {fileID: 11441116}
   - 96: {fileID: 9602600}
-  - 114: {fileID: 11449210}
   - 135: {fileID: 13570402}
   m_Layer: 8
   m_Name: shot
@@ -133,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c2973d7c8000a498cb315948cfaf42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  yVelocity: 0
   gravityAddition: 10
   velocityMultiplier: 0
   shotParams:
@@ -142,7 +142,7 @@ MonoBehaviour:
   framesToSelfDestruct: 60
 --- !u!114 &11449210
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 112948}

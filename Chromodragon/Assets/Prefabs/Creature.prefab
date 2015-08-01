@@ -148,10 +148,10 @@ MonoBehaviour:
   currentColor: 0
   shotPrefab: {fileID: 157558, guid: 1603bed6426c9924a83100c2506b8a89, type: 2}
   iShoot: 0
-  spitAngle: 45
-  spitDirections: 6
+  spitAngle: -80
+  spitDirections: 3
   muzzleOffset: .5
-  spitSpeed: 4
+  spitSpeed: 8
 --- !u!114 &11496370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -256,11 +256,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: spitAngle
-      value: -45
+      value: -80
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: spitDirections
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shotPrefab
@@ -276,7 +276,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: spitSpeed
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled

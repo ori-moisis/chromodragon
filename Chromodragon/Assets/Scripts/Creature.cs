@@ -39,11 +39,11 @@ public class Creature : MonoBehaviour
 	private float time = 0;
 	protected void Update ()
 	{
-
 		if (iShoot) {
 			time += Time.deltaTime;
 			if (time > 1) {
 				time = 0;
+				CalculateSpitDirections();
 				SpitShot (new Shot.ShotParams ());
 			}
 		}
