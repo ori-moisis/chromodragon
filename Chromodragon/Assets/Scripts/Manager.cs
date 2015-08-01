@@ -17,6 +17,8 @@ public class Manager : MonoBehaviour
 	public Slider purpleScoreSlider;
 	public Slider orangeScoreSlider;
 
+    public int numTurns = 20;
+
     public Image[] turnImages;
 	public GameColors[] targetColors;
 	public GameObject nextBallsWidget;
@@ -114,9 +116,19 @@ public class Manager : MonoBehaviour
     {
         if (PhotonNetwork.inRoom)
         {
+            GameColors[] primaries = this.targetColors[currentTurn].getPrimaries();
+
             Color newColor = ColorsManager.colorMap[this.targetColors[currentTurn]];
+            Color primary1 = ColorsManager.colorMap[primaries[0]];
+            Color primary2 = ColorsManager.colorMap[primaries[1]];
+
             newColor.a = isSet ? 10 : 0;
+            primary1.a = isSet ? 10 : 0;
+            primary2.a = isSet ? 10 : 0;
+
             this.turnImages[currentTurnIndex()].color = newColor;
+            this.turnImages[3].color = primary1;
+            this.turnImages[4].color = primary2;
         }
     }
 
@@ -153,10 +165,6 @@ public class Manager : MonoBehaviour
 		greenScoreSlider.value = (float)(numGreen) / numCreatures;
 		purpleScoreSlider.value = (float)(numPurple) / numCreatures;
 		orangeScoreSlider.value = (float)(numOrange) / numCreatures;
-
-        Debug.Log(greenScoreSlider.value);
-        Debug.Log(purpleScoreSlider.value);
-        Debug.Log(orangeScoreSlider.value);
 	}
 
 	public Shot.ShotParams GetNextShot()

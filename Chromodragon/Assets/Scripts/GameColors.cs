@@ -97,4 +97,27 @@ public static class GameColorsExtensions
 			(color == GameColors.Orange && otherColor == GameColors.Blue) ||
 			(color == GameColors.Purple && otherColor == GameColors.Yellow);
 	}
+
+    public static GameColors[] getPrimaries(this GameColors color){
+        GameColors[] primaries;
+
+        if (color == GameColors.Green)
+        {
+            primaries = new GameColors[2] { GameColors.Blue, GameColors.Yellow };
+        }
+        else if (color == GameColors.Purple)
+        {
+            primaries = new GameColors[2] { GameColors.Blue, GameColors.Red };
+        }
+        else if (color == GameColors.Orange)
+        {
+            primaries = new GameColors[2] { GameColors.Yellow, GameColors.Red };
+        }
+        else
+        {
+            primaries = new GameColors[1] { color };
+        }
+
+        return primaries;
+    }
 }
