@@ -11,7 +11,6 @@ GameObject:
   - 114: {fileID: 11406988}
   - 114: {fileID: 11439326}
   - 82: {fileID: 8254454}
-  - 114: {fileID: 11467102}
   - 82: {fileID: 8279866}
   - 81: {fileID: 8172850}
   - 114: {fileID: 11478002}
@@ -213,6 +212,7 @@ MonoBehaviour:
   nextShots: []
   winningAnimation: {fileID: 100002, guid: 180149b1a35449044a27b451e816d2de, type: 2}
   winningText: {fileID: 0}
+  framesDelayOnFinish: 120
 --- !u!114 &11439326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -230,22 +230,6 @@ MonoBehaviour:
   purple: {r: .749019623, g: .533333361, b: 1, a: 1}
   green: {r: .447058827, g: .956862748, b: .529411793, a: 1}
   orange: {r: .984313726, g: .68235296, b: .227450982, a: 1}
---- !u!114 &11467102
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 188660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b3693086e92146f799c7e34bfe7f735, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slingshotBegin: {fileID: 8300000, guid: b5eec0b2faccd4caf9053459c32e8024, type: 3}
-  slingshotStretch: {fileID: 8300000, guid: 02166229e066d4f76bab2cf5d0027d52, type: 3}
-  slingshotShoot: {fileID: 8300000, guid: b369abe1553334c6ba5d1dbadd2f55d8, type: 3}
-  gulp: {fileID: 0}
-  bleh: {fileID: 0}
 --- !u!114 &11478002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -261,7 +245,7 @@ MonoBehaviour:
   slingshotStretch: {fileID: 8300000, guid: 02166229e066d4f76bab2cf5d0027d52, type: 3}
   slingshotShoot: {fileID: 8300000, guid: b369abe1553334c6ba5d1dbadd2f55d8, type: 3}
   gulp: {fileID: 8300000, guid: 66c7752086e3b481bbeaa9b24d1812c7, type: 3}
-  bleh: {fileID: 0}
+  bleh: {fileID: 8300000, guid: 9a88edabf88d849b49e9e60b86f961df, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

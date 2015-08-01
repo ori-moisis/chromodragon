@@ -61,6 +61,7 @@ public class Creature : MonoBehaviour
 
 	public void SpitShot (Shot.ShotParams shotParams)
 	{
+		AudioManager.PlayAudio ("Bleh");
 		foreach (var direction in spitDirectionVectors) {
 //			Debug.Log (direction);
 			ShootColor (direction, shotParams);
@@ -124,7 +125,7 @@ public class Creature : MonoBehaviour
 					Manager.instance.updateScore (currentColor, newColor);
 					currentColor = newColor;
 					sprite.color = currentColor.GetColor ();
-					Manager.instance.checkFinish();
+					Manager.instance.checkFinish ();
 
 				}
 			}
