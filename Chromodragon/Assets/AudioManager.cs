@@ -58,7 +58,7 @@ public class AudioManager : MonoBehaviour
 	private IEnumerator PlaySlingshot ()
 	{
 		if (slingshotState != SlingshotState.Resting)
-			yield return null;
+			yield break;
 
 		slingshotState = SlingshotState.Pulling;
 
@@ -68,7 +68,7 @@ public class AudioManager : MonoBehaviour
 		yield return new WaitForSeconds (slingshotBegin.length);
 
 		if (slingshotState != SlingshotState.Pulling)
-			yield return null;
+			yield break;
 
 		Debug.Log ("Playing slingshotStretch");
 		source.clip = slingshotStretch;
@@ -84,7 +84,8 @@ public class AudioManager : MonoBehaviour
 	private IEnumerator StopSlingshot ()
 	{
 		if (slingshotState != SlingshotState.Pulling) 
-			yield return null;
+			yield break;
+		;
 
 		slingshotState = SlingshotState.Shooting;
 
