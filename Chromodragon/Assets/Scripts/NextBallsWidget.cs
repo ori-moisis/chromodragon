@@ -8,8 +8,10 @@ public class NextBallsWidget : MonoBehaviour {
 	GameObject[] balls;
 	Vector3[] dest;
 	float[] stepSize;
-	float epslion = 0.1f;
+	float epslion = 0.001f;
 	int numberOfBallsInQueue;
+    public Vector2[] minDests;
+    Vector2[] maxDests;
 
 
 	// Use this for initialization
@@ -20,19 +22,28 @@ public class NextBallsWidget : MonoBehaviour {
 		balls [1] = middleBall;
 		balls [2] = topBall;
 
+        minDests = new Vector2[balls.Length];
+        maxDests = new Vector2[balls.Length];
+        for (int i = 0; i < balls.Length; ++i )
+        {
+            RectTransform rectTrans = balls[i].GetComponent<RectTransform> ();
+            minDests[i] = new Vector2(rectTrans.anchorMin.x, rectTrans.anchorMin.y);
+            maxDests[i] = new Vector2(rectTrans.anchorMax.x, rectTrans.anchorMax.y);
+        }
+
 		stepSize = new float[3];
-		dest = new Vector3[3];
 		upDateColors ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
 		for (int i = 0; i < numberOfBallsInQueue; i++) {
 			RectTransform rectTrans = balls[i].GetComponent<RectTransform> ();
-			if(Vector3.Distance(rectTrans.position, dest[i]) > epslion) {
-				rectTrans.Translate((dest[i] - rectTrans.position).normalized*stepSize[i]);
-			}
+            if (Vector2.Distance(rectTrans.anchorMin, minDests[i]) > epslion)
+            {
+                rectTrans.anchorMin -= new Vector2(0f, 0.1f);
+                rectTrans.anchorMax -= new Vector2(0f, 0.1f);
+            }
 		}
 		
 	}
@@ -54,14 +65,15 @@ public class NextBallsWidget : MonoBehaviour {
 		balls [1] = balls [2];
 		balls [2] = tmp;
 
-		balls [2].GetComponent<RectTransform> ().Translate(new Vector3(0, 60, 0));
+        balls[2].GetComponent<RectTransform>().anchorMin = new Vector2(0, 1);
+        balls[2].GetComponent<RectTransform>().anchorMax = new Vector2(1, 1.4f);
 
-		animateYMovement (0, -20, 2f);
-		animateYMovement (1, -20, 2f);
+		//animateYMovement (0, -20, 2f);
+		//animateYMovement (1, -20, 2f);
 
         SetBallVisuals(2, Manager.instance.nextShots[(((Manager.instance.nextShotIndex - 1) % numberOfBallsInQueue) + numberOfBallsInQueue) % numberOfBallsInQueue]);
 
-		animateYMovement (2, -20, 2f);
+		//animateYMovement (2, -20, 2f);
 	}
 
     private void SetBallVisuals(int index, Shot.ShotParams param)
