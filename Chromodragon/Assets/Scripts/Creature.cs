@@ -20,6 +20,7 @@ public class Creature : MonoBehaviour
 	private Animator animator;
 
 	private static int EAT_TRIGGER = Animator.StringToHash ("eat");
+	private static int SPIT_TRIGGER = Animator.StringToHash ("spit");
 
 //#if UNITY_EDITOR
 //	protected void OnDrawGizmos ()
@@ -36,16 +37,20 @@ public class Creature : MonoBehaviour
 		CalculateSpitDirections ();
 	}
 
-	private float time = 0;
+//	private float time = 0;
 	protected void Update ()
 	{
 		if (iShoot) {
-			time += Time.deltaTime;
-			if (time > 1) {
-				time = 0;
-				CalculateSpitDirections ();
-				SpitShot (new Shot.ShotParams ());
-			}
+//			time += Time.deltaTime;
+//			if (time > 1) {
+//				time = 0;
+//				CalculateSpitDirections ();
+//				SpitShot (new Shot.ShotParams ());
+//			}
+
+			currentColor = GameColors.Purple;
+			EatColor (new Shot.ShotParams (Shot.ShotTypes.ColorShot, GameColors.Yellow, 2));
+			iShoot = false;
 		}
 	}
 
@@ -59,12 +64,17 @@ public class Creature : MonoBehaviour
 		}
 	}
 
-	public void SpitShot (Shot.ShotParams shotParams)
+	private void InitiateSpitShot ()
+	{
+		animator.SetTrigger (SPIT_TRIGGER);
+	}
+
+	public void SpitShot ()
 	{
 		AudioManager.PlayAudio ("Bleh");
 		foreach (var direction in spitDirectionVectors) {
 //			Debug.Log (direction);
-			ShootColor (direction, shotParams);
+			ShootColor (direction, savedShotParams);
 		}
 	}
 
@@ -119,7 +129,7 @@ public class Creature : MonoBehaviour
 
 				if (currentColor.IsRivalColor (savedShotParams.color)) {
 					if (savedShotParams.timeToLive > 0) {
-						SpitShot (savedShotParams);
+						InitiateSpitShot ();
 					}
 				} else if (newColor != currentColor) {
 					Manager.instance.updateScore (currentColor, newColor);
@@ -146,7 +156,7 @@ public class Creature : MonoBehaviour
 				currentColor = newColor;
 				sprite.color = currentColor.GetColor ();
 				if (savedShotParams.timeToLive > 0) {
-					SpitShot (savedShotParams);
+					InitiateSpitShot ();
 				}
 			}
 			break;
