@@ -104,7 +104,8 @@ public class Slingshot : Photon.PunBehaviour
 				PhotonNetwork.RPC (photonView, "shoot", PhotonTargets.All, false, new object[] {
 					diff * velocityMultiplier,
 					(int)nextShot.type,
-					(int)nextShot.color
+					(int)nextShot.color,
+					nextShot.timeToLive
 				});
 			} else {
 				shoot (diff * velocityMultiplier, (int)nextShot.type, (int)nextShot.color, nextShot.timeToLive);
