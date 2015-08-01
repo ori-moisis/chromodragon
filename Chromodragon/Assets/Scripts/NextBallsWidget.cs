@@ -59,9 +59,16 @@ public class NextBallsWidget : MonoBehaviour {
 		animateYMovement (0, -20, 2f);
 		animateYMovement (1, -20, 2f);
 
-		balls [2].GetComponent<Image> ().color = Manager.instance.nextShots [(((Manager.instance.nextShotIndex - 1) % numberOfBallsInQueue) + numberOfBallsInQueue) %  numberOfBallsInQueue].GetColor();
+        SetBallVisuals(2, Manager.instance.nextShots[(((Manager.instance.nextShotIndex - 1) % numberOfBallsInQueue) + numberOfBallsInQueue) % numberOfBallsInQueue]);
+
 		animateYMovement (2, -20, 2f);
 	}
+
+    private void SetBallVisuals(int index, Shot.ShotParams param)
+    {
+        balls[2].GetComponent<Image>().color = param.GetColor();
+        
+    }
 
 	private void animateYMovement(int index, int deltaY, float step){
 		stepSize [index] = step;

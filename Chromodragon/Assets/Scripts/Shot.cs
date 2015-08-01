@@ -16,7 +16,8 @@ public class Shot : MonoBehaviour
 	public enum ShotTypes : int
 	{
 		ColorShot,
-        WhiteShot
+        WhiteShot,
+        InstantBlech
 	}
 
 
@@ -51,7 +52,14 @@ public class Shot : MonoBehaviour
             }
             
 			color = possibleColors [(int)(UnityEngine.Random.value * possibleColors.Length)];
-			timeToLive = 2;
+            if (type == ShotTypes.InstantBlech)
+            {
+                timeToLive = 1;
+            }
+            else 
+            {
+                timeToLive = 2;
+            }
 		}
 
 		public ShotParams (ShotTypes type, GameColors color, int timeToLive)
@@ -66,7 +74,12 @@ public class Shot : MonoBehaviour
             switch (this.type)
             {
                 case ShotTypes.ColorShot:
-                    return ColorsManager.colorMap[this.color];
+                    return this.color.GetColor();
+                case ShotTypes.InstantBlech:
+                    {
+                        Color col = this.color.GetColor();
+                        return Color.Lerp(col, Color.black, 0.4f);
+                    }
                 case ShotTypes.WhiteShot:
                     return GameColors.White.GetColor();
                 default:
@@ -87,8 +100,9 @@ public class Shot : MonoBehaviour
 		spriteRenderer = GetComponentInChildren<SpriteRenderer> ();
 		startingPosition = transform.position;
 
-        shotTypeWeights[ShotTypes.ColorShot] = 5;
+        shotTypeWeights[ShotTypes.ColorShot] = 6;
         shotTypeWeights[ShotTypes.WhiteShot] = 1;
+        shotTypeWeights[ShotTypes.InstantBlech] = 1;
 	}
 
 	public void InitShot (ShotParams shotParams)

@@ -141,6 +141,18 @@ public class Creature : MonoBehaviour
                     }
                 }
                 break;
+            case Shot.ShotTypes.InstantBlech:
+                {
+                    GameColors newColor = savedShotParams.color;
+                    Manager.instance.updateScore(currentColor, newColor);
+                    currentColor = newColor;
+                    sprite.color = currentColor.GetColor();
+                    if (savedShotParams.timeToLive > 0)
+                    {
+                        SpitShot(savedShotParams);
+                    }
+                }
+                break;
         }
 	}
 }
