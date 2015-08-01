@@ -260,7 +260,7 @@ MonoBehaviour:
   slingshotBegin: {fileID: 8300000, guid: b5eec0b2faccd4caf9053459c32e8024, type: 3}
   slingshotStretch: {fileID: 8300000, guid: 02166229e066d4f76bab2cf5d0027d52, type: 3}
   slingshotShoot: {fileID: 8300000, guid: b369abe1553334c6ba5d1dbadd2f55d8, type: 3}
-  gulp: {fileID: 0}
+  gulp: {fileID: 8300000, guid: 66c7752086e3b481bbeaa9b24d1812c7, type: 3}
   bleh: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
