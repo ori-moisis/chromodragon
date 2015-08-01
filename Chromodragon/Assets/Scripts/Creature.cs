@@ -16,10 +16,18 @@ public class Creature : MonoBehaviour
 	public float spitSpeed;
 	private List<Vector3> spitDirectionVectors;
 
+	public float idleMinTime;
+	public float idleMaxTime;
+	private float nextIdleTime;
+	private float timeTillIdle;
+
 	private SpriteRenderer sprite;
 	private Animator animator;
 
 	private static int EAT_TRIGGER = Animator.StringToHash ("eat");
+	private static int SPIT_TRIGGER = Animator.StringToHash ("spit");
+	private static int IDLE_2_TRIGGER = Animator.StringToHash ("idleAlt1");
+	private static int IDLE_1_TRIGGER = Animator.StringToHash ("idleAlt2");
 
 //#if UNITY_EDITOR
 //	protected void OnDrawGizmos ()
@@ -33,19 +41,34 @@ public class Creature : MonoBehaviour
 		sprite = GetComponentInChildren<SpriteRenderer> ();
 		animator = GetComponent<Animator> ();
 
+		nextIdleTime = Random.Range (0, idleMaxTime);
+		timeTillIdle = 0;
+
 		CalculateSpitDirections ();
 	}
 
-	private float time = 0;
+//	private float time = 0;
 	protected void Update ()
 	{
 		if (iShoot) {
-			time += Time.deltaTime;
-			if (time > 1) {
-				time = 0;
-				CalculateSpitDirections ();
-				SpitShot (new Shot.ShotParams ());
-			}
+//			time += Time.deltaTime;
+//			if (time > 1) {
+//				time = 0;
+//				CalculateSpitDirections ();
+//				SpitShot (new Shot.ShotParams ());
+//			}
+
+			currentColor = GameColors.Purple;
+			EatColor (new Shot.ShotParams (Shot.ShotTypes.ColorShot, GameColors.Yellow, 2));
+			iShoot = false;
+		}
+
+		timeTillIdle += Time.deltaTime;
+		if (timeTillIdle > nextIdleTime) {
+			int trigger = Random.value > 0.5 ? IDLE_1_TRIGGER : IDLE_2_TRIGGER;
+			animator.SetTrigger (trigger);
+			nextIdleTime = Random.Range (idleMinTime, idleMaxTime);
+			timeTillIdle = 0;
 		}
 	}
 
@@ -59,12 +82,17 @@ public class Creature : MonoBehaviour
 		}
 	}
 
-	public void SpitShot (Shot.ShotParams shotParams)
+	private void InitiateSpitShot ()
+	{
+		animator.SetTrigger (SPIT_TRIGGER);
+	}
+
+	public void SpitShot ()
 	{
 		AudioManager.PlayAudio ("Bleh");
 		foreach (var direction in spitDirectionVectors) {
 //			Debug.Log (direction);
-			ShootColor (direction, shotParams);
+			ShootColor (direction, savedShotParams);
 		}
 	}
 
@@ -119,7 +147,7 @@ public class Creature : MonoBehaviour
 
 				if (currentColor.IsRivalColor (savedShotParams.color)) {
 					if (savedShotParams.timeToLive > 0) {
-						SpitShot (savedShotParams);
+						InitiateSpitShot ();
 					}
 				} else if (newColor != currentColor) {
 					Manager.instance.updateScore (currentColor, newColor);
@@ -146,7 +174,7 @@ public class Creature : MonoBehaviour
 				currentColor = newColor;
 				sprite.color = currentColor.GetColor ();
 				if (savedShotParams.timeToLive > 0) {
-					SpitShot (savedShotParams);
+					InitiateSpitShot ();
 				}
 			}
 			break;
