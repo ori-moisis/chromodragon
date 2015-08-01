@@ -124,6 +124,7 @@ public class Creature : MonoBehaviour
 					Manager.instance.updateScore (currentColor, newColor);
 					currentColor = newColor;
 					sprite.color = currentColor.GetColor ();
+					Manager.instance.checkFinish();
 
 				}
 			}

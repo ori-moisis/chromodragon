@@ -197,7 +197,7 @@ MonoBehaviour:
   greenScoreSlider: {fileID: 0}
   purpleScoreSlider: {fileID: 0}
   orangeScoreSlider: {fileID: 0}
-  numTurns: 50
+  numTurns: 3
   turnsText: {fileID: 0}
   turnImages:
   - {fileID: 0}
@@ -211,6 +211,8 @@ MonoBehaviour:
   currentTurn: 0
   nextShotIndex: 0
   nextShots: []
+  winningAnimation: {fileID: 100002, guid: 180149b1a35449044a27b451e816d2de, type: 2}
+  winningText: {fileID: 0}
 --- !u!114 &11439326
 MonoBehaviour:
   m_ObjectHideFlags: 1

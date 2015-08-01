@@ -37,6 +37,11 @@ public class Manager : MonoBehaviour
 	public int nextShotIndex;
 	public Shot.ShotParams[] nextShots;
 
+	public GameObject winningAnimation;
+	public Text winningText;
+	bool isFinished = false;
+	public int framesDelayOnFinish = 120;
+
 	// Map hexagon-cube coordinates to creatures:
 	Creature[, ,] coordToCreature;
 
@@ -77,7 +82,23 @@ public class Manager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    
+		//any key on win
+		if (isFinished){
+			bool messageUpdated = false;
+			if(framesDelayOnFinish <= 0) {
+				if(!messageUpdated){
+					messageUpdated = true;
+				}
+				if(Input.anyKey){
+					print("quitting");
+					Debug.Log ("A key or mouse click has been detected");
+					Application.Quit();
+					//PhotonNetwork.LoadLevel("Lobby");
+				}
+			}
+			framesDelayOnFinish--;
+		}
+		
 	}
 
 
@@ -138,10 +159,7 @@ public class Manager : MonoBehaviour
     public void updateTurn()
     {
         --numTurns;
-        if (numTurns == 0)
-        {
-
-        }
+		checkFinish ();
 
         turnsText.text = string.Format("{0}", numTurns);
 
@@ -152,7 +170,7 @@ public class Manager : MonoBehaviour
 
     public bool isMyTurn()
     {
-        return (currentTurn + 1) == PhotonNetwork.player.ID;
+        return ((currentTurn + 1) == PhotonNetwork.player.ID && !isFinished);
     }
 
 	public void updateScore (GameColors prevColor, GameColors newColor)
@@ -233,5 +251,35 @@ public class Manager : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void checkFinish(){
+		print ("check finish\tturns " + numTurns + "\tpurple " + numPurple
+		       + "\tgreen " + numGreen + "\torange " + numOrange);
+		if (numTurns <= 0)
+		{
+			if(numGreen > numOrange && numGreen > numPurple) //green win
+				finish(GameColors.Green);
+			if(numPurple > numOrange && numPurple > numGreen) //purple win
+				finish(GameColors.Purple);
+			if(numOrange > numPurple && numOrange > numGreen) //orange win
+				finish(GameColors.Orange);
+		}
+	}
+	
+	//called when game ends
+	void finish(GameColors winningColor) {
+		isFinished = true;
+
+		//fireworks
+		for (int i = 0; i < 3; i++) {
+			GameObject winEffect = Instantiate (winningAnimation);
+			winEffect.transform.position = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 1);
+		}
+		
+		//text and continue button
+		winningText.text = (winningColor.ToString() + " wins!");
+		
+		
 	}
 }
