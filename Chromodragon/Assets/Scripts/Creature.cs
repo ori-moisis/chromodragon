@@ -43,7 +43,7 @@ public class Creature : MonoBehaviour
 			time += Time.deltaTime;
 			if (time > 1) {
 				time = 0;
-				CalculateSpitDirections();
+				CalculateSpitDirections ();
 				SpitShot (new Shot.ShotParams ());
 			}
 		}
@@ -62,7 +62,7 @@ public class Creature : MonoBehaviour
 	public void SpitShot (Shot.ShotParams shotParams)
 	{
 		foreach (var direction in spitDirectionVectors) {
-			Debug.Log (direction);
+//			Debug.Log (direction);
 			ShootColor (direction, shotParams);
 		}
 	}
@@ -98,7 +98,7 @@ public class Creature : MonoBehaviour
 
 	void hit (Shot shot)
 	{
-        EatColor (shot.shotParams);
+		EatColor (shot.shotParams);
 	}
 
 	public void EatColor (Shot.ShotParams shotParams)
@@ -109,50 +109,43 @@ public class Creature : MonoBehaviour
 	
 	private void ConsumeShot ()
 	{
-        switch (savedShotParams.type)
-        {
-            case Shot.ShotTypes.ColorShot:
-                {
-                    GameColors newColor = currentColor.Add(savedShotParams.color);
+		switch (savedShotParams.type) {
+		case Shot.ShotTypes.ColorShot:
+			{
+				GameColors newColor = currentColor.Add (savedShotParams.color);
 
-                    if (currentColor.IsRivalColor(savedShotParams.color))
-                    {
-                        if (savedShotParams.timeToLive > 0)
-                        {
-                            SpitShot(savedShotParams);
-                        }
-                    }
-                    else if (newColor != currentColor)
-                    {
-                        Manager.instance.updateScore(currentColor, newColor);
-                        currentColor = newColor;
-                        sprite.color = currentColor.GetColor();
+				if (currentColor.IsRivalColor (savedShotParams.color)) {
+					if (savedShotParams.timeToLive > 0) {
+						SpitShot (savedShotParams);
+					}
+				} else if (newColor != currentColor) {
+					Manager.instance.updateScore (currentColor, newColor);
+					currentColor = newColor;
+					sprite.color = currentColor.GetColor ();
 
-                    }
-                }
-                break;
-            case Shot.ShotTypes.WhiteShot:
-                {
-                    if (currentColor != GameColors.White)
-                    {
-                        Manager.instance.updateScore(currentColor, GameColors.White);
-                        currentColor = GameColors.White;
-                        sprite.color = currentColor.GetColor();
-                    }
-                }
-                break;
-            case Shot.ShotTypes.InstantBlech:
-                {
-                    GameColors newColor = savedShotParams.color;
-                    Manager.instance.updateScore(currentColor, newColor);
-                    currentColor = newColor;
-                    sprite.color = currentColor.GetColor();
-                    if (savedShotParams.timeToLive > 0)
-                    {
-                        SpitShot(savedShotParams);
-                    }
-                }
-                break;
-        }
+				}
+			}
+			break;
+		case Shot.ShotTypes.WhiteShot:
+			{
+				if (currentColor != GameColors.White) {
+					Manager.instance.updateScore (currentColor, GameColors.White);
+					currentColor = GameColors.White;
+					sprite.color = currentColor.GetColor ();
+				}
+			}
+			break;
+		case Shot.ShotTypes.InstantBlech:
+			{
+				GameColors newColor = savedShotParams.color;
+				Manager.instance.updateScore (currentColor, newColor);
+				currentColor = newColor;
+				sprite.color = currentColor.GetColor ();
+				if (savedShotParams.timeToLive > 0) {
+					SpitShot (savedShotParams);
+				}
+			}
+			break;
+		}
 	}
 }
