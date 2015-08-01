@@ -791,10 +791,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 11406988, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
-      propertyPath: turnImages.Array.size
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 450878, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
       propertyPath: m_LocalPosition.x
       value: -.249351025
@@ -848,6 +844,10 @@ Prefab:
       value: 
       objectReference: {fileID: 2042957676}
     - target: {fileID: 11406988, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
+      propertyPath: turnsText
+      value: 
+      objectReference: {fileID: 1892081806}
+    - target: {fileID: 11406988, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
       propertyPath: turnImages.Array.data[0]
       value: 
       objectReference: {fileID: 2058981703}
@@ -860,14 +860,6 @@ Prefab:
       value: 
       objectReference: {fileID: 1477111986}
     - target: {fileID: 11406988, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
-      propertyPath: nextBallsWidget
-      value: 
-      objectReference: {fileID: 1666586355}
-    - target: {fileID: 11406988, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
-      propertyPath: hexRadius
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11406988, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
       propertyPath: turnImages.Array.data[3]
       value: 
       objectReference: {fileID: 377683624}
@@ -876,13 +868,9 @@ Prefab:
       value: 
       objectReference: {fileID: 1091170501}
     - target: {fileID: 11406988, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
-      propertyPath: turnsText
+      propertyPath: nextBallsWidget
       value: 
-      objectReference: {fileID: 1892081806}
-    - target: {fileID: 11406988, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
-      propertyPath: numTurns
-      value: 50
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1666586355}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
   m_IsPrefabParent: 0
@@ -897,7 +885,6 @@ GameObject:
   - 20: {fileID: 892468120}
   - 92: {fileID: 892468119}
   - 124: {fileID: 892468118}
-  - 81: {fileID: 892468117}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -905,13 +892,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &892468117
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 892468116}
-  m_Enabled: 1
 --- !u!124 &892468118
 Behaviour:
   m_ObjectHideFlags: 0
