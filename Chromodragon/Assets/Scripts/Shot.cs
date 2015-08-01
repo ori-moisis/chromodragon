@@ -87,7 +87,7 @@ public class Shot : MonoBehaviour
 		spriteRenderer = GetComponentInChildren<SpriteRenderer> ();
 		startingPosition = transform.position;
 
-        shotTypeWeights[ShotTypes.ColorShot] = 10;
+        shotTypeWeights[ShotTypes.ColorShot] = 5;
         shotTypeWeights[ShotTypes.WhiteShot] = 1;
 	}
 
