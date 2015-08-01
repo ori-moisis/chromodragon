@@ -231,9 +231,9 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: -1, y: 0, z: 0}
+  - {x: -.400000006, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 0, z: 0}
+  - {x: .400000006, y: 0, z: 0}
   m_Parameters:
     startWidth: .0799999982
     endWidth: .0799999982
@@ -322,6 +322,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: mozzleOffset.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Positions.Array.data[0].x
+      value: -.400000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Positions.Array.data[2].x
+      value: .400000006
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -19,6 +19,11 @@ public class Slingshot : Photon.PunBehaviour
 		photonView = GetComponent<PhotonView> ();
 		calibrateRubberBand ();
 		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
+        if (! photonView.isMine)
+        {
+            this.transform.parent.GetComponent<Renderer>().enabled = false;
+            GetComponentInParent<Renderer>().enabled = false;
+        }
 	}
 	
 	// Update is called once per frame
@@ -60,6 +65,7 @@ public class Slingshot : Photon.PunBehaviour
 		if (this.IsDisabled ()) {
 			return;
 		}
+
 		//calculate new dragged position
 		Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset;
@@ -69,6 +75,8 @@ public class Slingshot : Photon.PunBehaviour
 		//plot trajectory
 		Vector3 diff = initialPosition - transform.position;
 		trajectoryMngr.PlotTrajectory (initialPosition, diff * velocityMultiplier, Manager.instance.nextShots [Manager.instance.nextShotIndex]);
+
+		AudioManager.StartSlingshot ();
 
 		if (debugPrints)
 			print ("curScreenPoint - " + curScreenPoint + "\ncurPosition - " + curPosition);
@@ -105,6 +113,7 @@ public class Slingshot : Photon.PunBehaviour
 				});
 			} else {
 				shoot (diff * velocityMultiplier, (int)nextShot.type, (int)nextShot.color, nextShot.timeToLive);
+				AudioManager.EndSlingshot ();
 			}
 		}
 	}
@@ -133,6 +142,7 @@ public class Slingshot : Photon.PunBehaviour
 		rubberBand = GetComponentInParent<LineRenderer> ();
 		var orthogonalSideOffset = Vector3.Cross (-transform.position, Vector3.up);
 		orthogonalSideOffset.Normalize ();
+        orthogonalSideOffset.Scale(new Vector3(0.4f, 0.4f, 0.4f));
 		rubberBand.SetPosition (0, transform.position + orthogonalSideOffset);
 		rubberBand.SetPosition (2, transform.position - orthogonalSideOffset);
 		updateRubberBand ();
