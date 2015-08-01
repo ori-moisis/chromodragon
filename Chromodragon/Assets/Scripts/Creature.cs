@@ -16,11 +16,18 @@ public class Creature : MonoBehaviour
 	public float spitSpeed;
 	private List<Vector3> spitDirectionVectors;
 
+	public float idleMinTime;
+	public float idleMaxTime;
+	private float nextIdleTime;
+	private float timeTillIdle;
+
 	private SpriteRenderer sprite;
 	private Animator animator;
 
 	private static int EAT_TRIGGER = Animator.StringToHash ("eat");
 	private static int SPIT_TRIGGER = Animator.StringToHash ("spit");
+	private static int IDLE_2_TRIGGER = Animator.StringToHash ("idleAlt1");
+	private static int IDLE_1_TRIGGER = Animator.StringToHash ("idleAlt2");
 
 //#if UNITY_EDITOR
 //	protected void OnDrawGizmos ()
@@ -33,6 +40,9 @@ public class Creature : MonoBehaviour
 	{
 		sprite = GetComponentInChildren<SpriteRenderer> ();
 		animator = GetComponent<Animator> ();
+
+		nextIdleTime = Random.Range (0, idleMaxTime);
+		timeTillIdle = 0;
 
 		CalculateSpitDirections ();
 	}
@@ -51,6 +61,14 @@ public class Creature : MonoBehaviour
 			currentColor = GameColors.Purple;
 			EatColor (new Shot.ShotParams (Shot.ShotTypes.ColorShot, GameColors.Yellow, 2));
 			iShoot = false;
+		}
+
+		timeTillIdle += Time.deltaTime;
+		if (timeTillIdle > nextIdleTime) {
+			int trigger = Random.value > 0.5 ? IDLE_1_TRIGGER : IDLE_2_TRIGGER;
+			animator.SetTrigger (trigger);
+			nextIdleTime = Random.Range (idleMinTime, idleMaxTime);
+			timeTillIdle = 0;
 		}
 	}
 
