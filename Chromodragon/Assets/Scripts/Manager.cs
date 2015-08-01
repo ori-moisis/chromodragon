@@ -143,7 +143,7 @@ public class Manager : MonoBehaviour
 
         }
 
-        turnsText.text = string.Format("Turns Remaining: {0}", numTurns);
+        turnsText.text = string.Format("{0}", numTurns);
 
         setCurrentTurnImgColor(false);
         currentTurn = (currentTurn + 1) % PhotonNetwork.playerList.Length;
