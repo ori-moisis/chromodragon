@@ -7,20 +7,43 @@ using UnityEngine.UI;
 public class Lobby : MonoBehaviour {
 
     public int numPlayers;
+    bool shouldJoinRoom;
     public GameObject waitingForPlayersText;
     
 
 	// Use this for initialization
 	void Start () {
-        PhotonNetwork.autoCleanUpPlayerObjects = true;
-        PhotonNetwork.automaticallySyncScene = true;
+        shouldJoinRoom = false;
+        if (! PhotonNetwork.connected)
+        {
+            PhotonNetwork.autoCleanUpPlayerObjects = true;
+            PhotonNetwork.automaticallySyncScene = true;
+        }
         Debug.Log("Starting");
 	}
 
     public void StartGame()
     {
-        PhotonNetwork.ConnectUsingSettings("v0.1");
+        Debug.Log("Start game called");
+        this.shouldJoinRoom = true;
+        if (! PhotonNetwork.connected)
+        {
+            PhotonNetwork.ConnectUsingSettings("v0.1");
+        }
+        else if (! PhotonNetwork.insideLobby)
+        {
+            PhotonNetwork.JoinLobby();
+        }
+        else
+        {
+            PhotonNetwork.JoinRandomRoom();
+        }
         waitingForPlayersText.GetComponent<Text>().text = "Waiting for other players";
+    }
+
+    public void OnLeftRoom ()
+    {
+        Debug.Log("left room");
     }
 
     void OnConnectedToMaster()
@@ -33,7 +56,10 @@ public class Lobby : MonoBehaviour {
     {
         RoomInfo[] rooms = PhotonNetwork.GetRoomList();
         Debug.Log("in lobby =" + PhotonNetwork.insideLobby + " with " + rooms.Length + " rooms");
-        PhotonNetwork.JoinRandomRoom();
+        if (this.shouldJoinRoom)
+        {
+            PhotonNetwork.JoinRandomRoom();
+        }
     }
 
     void OnPhotonRandomJoinFailed()
@@ -76,6 +102,10 @@ public class Lobby : MonoBehaviour {
 
     void EnoughPlayers()
     {
+        if (PhotonNetwork.isMasterClient)
+        {
+            PhotonNetwork.room.visible = false;
+        }
         PhotonNetwork.LoadLevel("Game");
     }
 

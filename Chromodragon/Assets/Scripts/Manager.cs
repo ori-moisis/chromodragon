@@ -8,6 +8,8 @@ public class Manager : MonoBehaviour
 
 	public static Manager instance;
 
+    public GameObject endPanel; 
+
 	public Creature CreaturePrefab;
 	public GameObject hexTilePrefab;
 	public GameObject creatures;
@@ -53,12 +55,19 @@ public class Manager : MonoBehaviour
 	{
         Vector3 positionFix = new Vector3(0, -2, 0);
 
+        endPanel.SetActive(false);
+
 		if (instance == null) {
 			instance = this;
 		}
 		initWorld (hexRadius);
 		if (PhotonNetwork.inRoom)
 		{
+            if (PhotonNetwork.player.ID > PhotonNetwork.playerList.Length)
+            {
+                this.ReturnToLobby();
+                return;
+            }
 			Vector3 pos = Quaternion.Euler(0, 120 * (PhotonNetwork.player.ID - 1), 0) * Camera.main.transform.position;
 			Camera.main.transform.position = pos;
             Camera.main.transform.rotation = Quaternion.LookRotation(positionFix - Camera.main.transform.position, Vector3.up);
@@ -154,6 +163,15 @@ public class Manager : MonoBehaviour
             this.turnImages[3].color = primary1;
             this.turnImages[4].color = primary2;
         }
+    }
+
+    public void ReturnToLobby()
+    {
+        if (PhotonNetwork.inRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+        Application.LoadLevel("Lobby");
     }
 
     public void updateTurn()
@@ -279,6 +297,9 @@ public class Manager : MonoBehaviour
 		
 		//text and continue button
 		winningText.text = (winningColor.ToString() + " wins!");
+
+
+        endPanel.SetActive(true);
 		
 		
 	}
