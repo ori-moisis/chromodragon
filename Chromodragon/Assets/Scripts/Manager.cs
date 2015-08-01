@@ -54,6 +54,10 @@ public class Manager : MonoBehaviour
 			Camera.main.transform.rotation = Quaternion.LookRotation(-Camera.main.transform.position, Vector3.up);
 			setCurrentTurnImgColor(true);
 		}
+        else
+        {
+            Camera.main.transform.rotation = Quaternion.LookRotation(-Camera.main.transform.position, Vector3.up);
+        }
 		nextBallsWidgetScript = nextBallsWidget.GetComponent<NextBallsWidget> ();
         nextShots = new Shot.ShotParams[3];
         for (int i = 0; i < nextShots.Length; ++i)
