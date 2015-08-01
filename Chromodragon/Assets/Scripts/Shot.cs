@@ -5,8 +5,11 @@ using System;
 public class Shot : MonoBehaviour
 {
 	private Rigidbody rigidBody;
+	private SphereCollider collider;
 	private SpriteRenderer spriteRenderer;
 	private Vector3 startingPosition;
+
+	public float yVelocity;
 
 	public enum ShotTypes : int
 	{
@@ -47,6 +50,7 @@ public class Shot : MonoBehaviour
 	protected void Awake ()
 	{
 		rigidBody = GetComponent<Rigidbody> ();
+		collider = GetComponent<SphereCollider> ();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer> ();
 		startingPosition = transform.position;
 	}
@@ -77,17 +81,23 @@ public class Shot : MonoBehaviour
 
 		//make shots drop faster
 		if (rigidBody != null) {
+//			Debug.Log ("Velocity: " + rigidBody.velocity.y);
+			yVelocity = rigidBody.velocity.y;
 			rigidBody.AddForce (-Vector3.up * gravityAddition);
+			if (collider.enabled == false && rigidBody.velocity.y < 0) {
+				collider.enabled = true;
+				Debug.Log ("Enabling collider");
+			}
 		} else {
 			//start self destruct timer
-			if(framesToSelfDestruct < 0){
-				Destroy(gameObject);
+			if (framesToSelfDestruct < 0) {
+				Destroy (gameObject);
 			}
 			framesToSelfDestruct--;
 		}
 	}
 
-	public void hit(GameObject creature)
+	public void hit (GameObject creature)
 	{
 		spriteRenderer.enabled = false;
 		Destroy (rigidBody);

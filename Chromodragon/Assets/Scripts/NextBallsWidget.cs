@@ -54,13 +54,12 @@ public class NextBallsWidget : MonoBehaviour {
 		balls [1] = balls [2];
 		balls [2] = tmp;
 
-		//tmp.GetComponent<Image>().color = Color.clear;
 		balls [2].GetComponent<RectTransform> ().Translate(new Vector3(0, 60, 0));
 
 		animateYMovement (0, -20, 2f);
 		animateYMovement (1, -20, 2f);
 
-		balls [2].GetComponent<Image> ().color = ColorsManager.colorMap[Manager.instance.nextShots [Mathf.Abs((Manager.instance.nextShotIndex - 1) % numberOfBallsInQueue)].color];
+		balls [2].GetComponent<Image> ().color = ColorsManager.colorMap[Manager.instance.nextShots [(((Manager.instance.nextShotIndex - 1) % numberOfBallsInQueue) + numberOfBallsInQueue) %  numberOfBallsInQueue].color];
 		animateYMovement (2, -20, 2f);
 	}
 
