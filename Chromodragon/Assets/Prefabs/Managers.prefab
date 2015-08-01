@@ -197,7 +197,7 @@ MonoBehaviour:
   greenScoreSlider: {fileID: 0}
   purpleScoreSlider: {fileID: 0}
   orangeScoreSlider: {fileID: 0}
-  numTurns: 50
+  numTurns: 3
   turnsText: {fileID: 0}
   turnImages:
   - {fileID: 0}
@@ -211,6 +211,8 @@ MonoBehaviour:
   currentTurn: 0
   nextShotIndex: 0
   nextShots: []
+  winningAnimation: {fileID: 100002, guid: 180149b1a35449044a27b451e816d2de, type: 2}
+  winningText: {fileID: 0}
 --- !u!114 &11439326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -224,7 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blue: {r: .388235301, g: .890196085, b: 1, a: 1}
   red: {r: .992156863, g: .403921574, b: .298039228, a: 1}
-  yellow: {r: .984313726, g: .913725495, b: .513725519, a: 1}
+  yellow: {r: .984313726, g: .913725495, b: .252999991, a: 1}
   purple: {r: .749019623, g: .533333361, b: 1, a: 1}
   green: {r: .447058827, g: .956862748, b: .529411793, a: 1}
   orange: {r: .984313726, g: .68235296, b: .227450982, a: 1}

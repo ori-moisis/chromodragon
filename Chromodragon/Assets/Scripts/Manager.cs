@@ -38,8 +38,9 @@ public class Manager : MonoBehaviour
 	public Shot.ShotParams[] nextShots;
 
 	public GameObject winningAnimation;
-	public GUIText winningText;
+	public Text winningText;
 	bool isFinished = false;
+	public int framesDelayOnFinish = 120;
 
 	// Map hexagon-cube coordinates to creatures:
 	Creature[, ,] coordToCreature;
@@ -81,7 +82,23 @@ public class Manager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    
+		//any key on win
+		if (isFinished){
+			bool messageUpdated = false;
+			if(framesDelayOnFinish <= 0) {
+				if(!messageUpdated){
+					messageUpdated = true;
+				}
+				if(Input.anyKey){
+					print("quitting");
+					Debug.Log ("A key or mouse click has been detected");
+					Application.Quit();
+					//PhotonNetwork.LoadLevel("Lobby");
+				}
+			}
+			framesDelayOnFinish--;
+		}
+		
 	}
 
 
@@ -153,7 +170,7 @@ public class Manager : MonoBehaviour
 
     public bool isMyTurn()
     {
-        return (currentTurn + 1) == PhotonNetwork.player.ID;
+        return ((currentTurn + 1) == PhotonNetwork.player.ID && !isFinished);
     }
 
 	public void updateScore (GameColors prevColor, GameColors newColor)
