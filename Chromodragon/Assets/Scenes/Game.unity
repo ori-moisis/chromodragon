@@ -871,6 +871,10 @@ Prefab:
       propertyPath: nextBallsWidget
       value: 
       objectReference: {fileID: 1666586355}
+    - target: {fileID: 11439326, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
+      propertyPath: yellow.b
+      value: .252999991
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2f3df86382a2b47cf8a673360031ccb5, type: 2}
   m_IsPrefabParent: 0
