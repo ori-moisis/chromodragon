@@ -8,6 +8,8 @@ public class Manager : MonoBehaviour
 
 	public static Manager instance;
 
+    public GameObject endPanel; 
+
 	public Creature CreaturePrefab;
 	public GameObject hexTilePrefab;
 	public GameObject creatures;
@@ -52,6 +54,8 @@ public class Manager : MonoBehaviour
 	void Awake ()
 	{
         Vector3 positionFix = new Vector3(0, -2, 0);
+
+        endPanel.SetActive(false);
 
 		if (instance == null) {
 			instance = this;
@@ -293,6 +297,9 @@ public class Manager : MonoBehaviour
 		
 		//text and continue button
 		winningText.text = (winningColor.ToString() + " wins!");
+
+
+        endPanel.SetActive(true);
 		
 		
 	}
