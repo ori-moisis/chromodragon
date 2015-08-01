@@ -19,11 +19,10 @@ public class Slingshot : Photon.PunBehaviour
 		photonView = GetComponent<PhotonView> ();
 		calibrateRubberBand ();
 		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
-        if (! photonView.isMine)
-        {
-            this.transform.parent.GetComponent<Renderer>().enabled = false;
-            GetComponentInParent<Renderer>().enabled = false;
-        }
+		if (! photonView.isMine) {
+			this.transform.parent.GetComponent<Renderer> ().enabled = false;
+			GetComponentInParent<Renderer> ().enabled = false;
+		}
 	}
 	
 	// Update is called once per frame
@@ -102,6 +101,8 @@ public class Slingshot : Photon.PunBehaviour
 		trajectoryMngr.hideTrajectory ();
 
 		//shoot
+		AudioManager.EndSlingshot ();
+
 		if (diff.y > 0) {
 			Shot.ShotParams nextShot = Manager.instance.GetNextShot ();
 			if (PhotonNetwork.inRoom) {
@@ -113,9 +114,9 @@ public class Slingshot : Photon.PunBehaviour
 				});
 			} else {
 				shoot (diff * velocityMultiplier, (int)nextShot.type, (int)nextShot.color, nextShot.timeToLive);
-				AudioManager.EndSlingshot ();
 			}
 		}
+
 	}
 
     
@@ -142,7 +143,7 @@ public class Slingshot : Photon.PunBehaviour
 		rubberBand = GetComponentInParent<LineRenderer> ();
 		var orthogonalSideOffset = Vector3.Cross (-transform.position, Vector3.up);
 		orthogonalSideOffset.Normalize ();
-        orthogonalSideOffset.Scale(new Vector3(0.4f, 0.4f, 0.4f));
+		orthogonalSideOffset.Scale (new Vector3 (0.4f, 0.4f, 0.4f));
 		rubberBand.SetPosition (0, transform.position + orthogonalSideOffset);
 		rubberBand.SetPosition (2, transform.position - orthogonalSideOffset);
 		updateRubberBand ();

@@ -51,16 +51,15 @@ public class AudioManager : MonoBehaviour
 	public static void StartSlingshot ()
 	{
 		if (instance.slingshotState == SlingshotState.Resting) {
+			instance.slingshotState = SlingshotState.Pulling;
 			instance.StartCoroutine (instance.PlaySlingshot ());
 		}
 	}
 
 	private IEnumerator PlaySlingshot ()
 	{
-		if (slingshotState != SlingshotState.Resting)
+		if (slingshotState != SlingshotState.Pulling)
 			yield break;
-
-		slingshotState = SlingshotState.Pulling;
 
 		Debug.Log ("Playing slingshotBegin");
 		source.clip = slingshotBegin;
