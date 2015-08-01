@@ -17,7 +17,7 @@ public class AudioManager : MonoBehaviour
 	}
 	private SlingshotState slingshotState;
 
-	public AudioClip chomp;
+	public AudioClip gulp;
 	public AudioClip bleh;
 
 	private AudioSource source;
@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
 		clips ["SlingShotStretch"] = slingshotStretch;
 		clips ["SlingshotShoot"] = slingshotShoot;
 
-		clips ["Chomp"] = chomp;
+		clips ["Gulp"] = gulp;
 		clips ["Bleh"] = bleh;
 	}
 

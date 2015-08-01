@@ -109,6 +109,9 @@ public class Creature : MonoBehaviour
 	
 	private void ConsumeShot ()
 	{
+		Debug.Log ("POOOOOOOP");
+		AudioManager.PlayAudio ("Gulp");
+
 		switch (savedShotParams.type) {
 		case Shot.ShotTypes.ColorShot:
 			{
