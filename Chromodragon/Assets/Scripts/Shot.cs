@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class Shot : MonoBehaviour
 {
@@ -11,14 +12,16 @@ public class Shot : MonoBehaviour
 
 	public float yVelocity;
 
+    // REMEMBER TO FILL shotTypeWeights FOR EVERY NEW TYPE
 	public enum ShotTypes : int
 	{
-		ColorShot
-		//SpecialShot //?
+		ColorShot,
+        WhiteShot
 	}
 
+
+    static Dictionary<ShotTypes, float> shotTypeWeights = new Dictionary<ShotTypes, float>(); // REMEMBER TO FILL THIS FOR EVERY NEW TYPE
 	static GameColors[] possibleColors = new GameColors[] { GameColors.Red, GameColors.Yellow, GameColors.Blue };
-	static Array possibleTypes = Enum.GetValues (typeof(ShotTypes));
 
 	[Serializable]
 	public class ShotParams
@@ -29,7 +32,24 @@ public class Shot : MonoBehaviour
 
 		public ShotParams ()
 		{
-			type = (ShotTypes)possibleTypes.GetValue ((int)(UnityEngine.Random.value * possibleTypes.Length));
+            float sumW = 0;
+            foreach (var item in shotTypeWeights)
+            {
+                type = item.Key;
+                sumW += item.Value;
+            }
+            int typeIndex = (int)(UnityEngine.Random.value * sumW);
+            float currW = 0;
+            foreach (var item in shotTypeWeights)
+            {
+                currW += item.Value;
+                if (typeIndex < currW)
+                {
+                    type = item.Key;
+                    break;
+                }
+            }
+            
 			color = possibleColors [(int)(UnityEngine.Random.value * possibleColors.Length)];
 			timeToLive = 2;
 		}
@@ -40,6 +60,19 @@ public class Shot : MonoBehaviour
 			this.color = color;
 			this.timeToLive = timeToLive;
 		}
+
+        public Color GetColor()
+        {
+            switch (this.type)
+            {
+                case ShotTypes.ColorShot:
+                    return ColorsManager.colorMap[this.color];
+                case ShotTypes.WhiteShot:
+                    return GameColors.White.GetColor();
+                default:
+                    return GameColors.White.GetColor();
+            }
+        }   
 	}
 
 	public float gravityAddition;
@@ -53,12 +86,15 @@ public class Shot : MonoBehaviour
 		collider = GetComponent<SphereCollider> ();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer> ();
 		startingPosition = transform.position;
+
+        shotTypeWeights[ShotTypes.ColorShot] = 10;
+        shotTypeWeights[ShotTypes.WhiteShot] = 1;
 	}
 
 	public void InitShot (ShotParams shotParams)
 	{
 		this.shotParams = shotParams;
-		this.SetColor (ColorsManager.colorMap [this.shotParams.color]);
+        this.SetColor(this.shotParams.GetColor());
 	}
 
 	private void SetColor (Color color)

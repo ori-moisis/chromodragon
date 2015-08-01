@@ -41,7 +41,7 @@ public class NextBallsWidget : MonoBehaviour {
 	{
 		for (int i = 0; i < numberOfBallsInQueue; i++) {
 			int j = (i + Manager.instance.nextShotIndex) % numberOfBallsInQueue;
-			balls[i].GetComponent<Image>().color = ColorsManager.colorMap [Manager.instance.nextShots[j].color];
+			balls[i].GetComponent<Image>().color = Manager.instance.nextShots[j].GetColor();
 		}
 	}
 
@@ -59,7 +59,7 @@ public class NextBallsWidget : MonoBehaviour {
 		animateYMovement (0, -20, 2f);
 		animateYMovement (1, -20, 2f);
 
-		balls [2].GetComponent<Image> ().color = ColorsManager.colorMap[Manager.instance.nextShots [(((Manager.instance.nextShotIndex - 1) % numberOfBallsInQueue) + numberOfBallsInQueue) %  numberOfBallsInQueue].color];
+		balls [2].GetComponent<Image> ().color = Manager.instance.nextShots [(((Manager.instance.nextShotIndex - 1) % numberOfBallsInQueue) + numberOfBallsInQueue) %  numberOfBallsInQueue].GetColor();
 		animateYMovement (2, -20, 2f);
 	}
 

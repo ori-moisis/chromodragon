@@ -33,7 +33,7 @@ public class TrajectoryManager : MonoBehaviour {
 			trajectory.SetPosition(1, start + (velocity * directionIndecatorLengthMultiplier));
 
 			if(velocity.y > 0) {
-				trajectory.SetColors (ColorsManager.colorMap[shotParams.color], ColorsManager.colorMap[shotParams.color]);
+				trajectory.SetColors (shotParams.GetColor(), shotParams.GetColor());
 			} else {
 				hideTrajectory();
 			}

@@ -98,15 +98,7 @@ public class Creature : MonoBehaviour
 
 	void hit (Shot shot)
 	{
-		switch (shot.shotParams.type) {
-		case Shot.ShotTypes.ColorShot:
-			EatColor (shot.shotParams);
-			break;
-		//case Shot.ShotTypes.SpecialShot:
-		// TODO: Special shot
-		//Debug.Log ("Special shot");
-		//break;
-		}
+        EatColor (shot.shotParams);
 	}
 
 	public void EatColor (Shot.ShotParams shotParams)
@@ -117,17 +109,38 @@ public class Creature : MonoBehaviour
 	
 	private void ConsumeShot ()
 	{
-		GameColors newColor = currentColor.Add (savedShotParams.color);
+        switch (savedShotParams.type)
+        {
+            case Shot.ShotTypes.ColorShot:
+                {
+                    GameColors newColor = currentColor.Add(savedShotParams.color);
 
-		if (currentColor.IsRivalColor (savedShotParams.color)) {
-			if (savedShotParams.timeToLive > 0) {
-				SpitShot (savedShotParams);
-			}
-		} else if (newColor != currentColor) {
-			Manager.instance.updateScore (currentColor, newColor);
-			currentColor = newColor;
-			sprite.color = currentColor.GetColor ();
+                    if (currentColor.IsRivalColor(savedShotParams.color))
+                    {
+                        if (savedShotParams.timeToLive > 0)
+                        {
+                            SpitShot(savedShotParams);
+                        }
+                    }
+                    else if (newColor != currentColor)
+                    {
+                        Manager.instance.updateScore(currentColor, newColor);
+                        currentColor = newColor;
+                        sprite.color = currentColor.GetColor();
 
-		}
+                    }
+                }
+                break;
+            case Shot.ShotTypes.WhiteShot:
+                {
+                    if (currentColor != GameColors.White)
+                    {
+                        Manager.instance.updateScore(currentColor, GameColors.White);
+                        currentColor = GameColors.White;
+                        sprite.color = currentColor.GetColor();
+                    }
+                }
+                break;
+        }
 	}
 }
