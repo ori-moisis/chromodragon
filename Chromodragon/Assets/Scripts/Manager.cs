@@ -177,19 +177,23 @@ public class Manager : MonoBehaviour
 					if (x == 0 || y == 0 || z == 0) {
 						// Calculate world coordinates from cube-hexagon coordinates:
 						float newX = (x - Mathf.Cos (Mathf.PI / 3) * (y + z));
-						float newY = Random.value * 0.15f;
+						float newY = 0* (Random.value * 0.15f);
 						float newZ = (Mathf.Sin (Mathf.PI / 3) * (y - z));
 
-						// Create a new creature:
-						Creature newCreature = Instantiate (CreaturePrefab)as Creature;
-						newCreature.transform.parent = creatures.transform;
-                        newCreature.transform.position = new Vector3(newX, newY, newZ);
-                        Debug.Log(newZ);
+                        //if (x != gridRadius && y != gridRadius && z != gridRadius)
+                        //{
+                            // Create a new creature:
+                            Creature newCreature = Instantiate(CreaturePrefab) as Creature;
+                            newCreature.transform.parent = creatures.transform;
+                            newCreature.transform.position = new Vector3(newX, newY, newZ);
+                            Debug.Log(newZ);
 
-						// add creature to data structures
-						coordToCreature [x, y, z] = newCreature;
-						int[] coord = new int[3] { x, y, z };
-						creatureToCoord.Add (newCreature, coord);
+                            // add creature to data structures
+                            coordToCreature[x, y, z] = newCreature;
+                            int[] coord = new int[3] { x, y, z };
+                            creatureToCoord.Add(newCreature, coord);
+                        //}
+
 
 						// Create a new tile:
 						GameObject newTile = Instantiate (hexTilePrefab);
