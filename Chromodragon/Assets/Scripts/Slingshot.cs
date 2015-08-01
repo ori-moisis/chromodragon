@@ -12,6 +12,7 @@ public class Slingshot : Photon.PunBehaviour
 	PhotonView photonView;
 	LineRenderer rubberBand;
 	TrajectoryManager trajectoryMngr;
+	Vector3 orthogonalSideOffset;
 
 	// Use this for initialization
 	void Start ()
@@ -19,7 +20,7 @@ public class Slingshot : Photon.PunBehaviour
 		photonView = GetComponent<PhotonView> ();
 		calibrateRubberBand ();
 		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
-		if (! photonView.isMine) {
+		if (PhotonNetwork.inRoom && ! photonView.isMine) {
 			this.transform.parent.GetComponent<Renderer> ().enabled = false;
 			GetComponentInParent<Renderer> ().enabled = false;
 		}
@@ -141,18 +142,21 @@ public class Slingshot : Photon.PunBehaviour
 	void calibrateRubberBand ()
 	{
 		rubberBand = GetComponentInParent<LineRenderer> ();
-		var orthogonalSideOffset = Vector3.Cross (-transform.position, Vector3.up);
+		orthogonalSideOffset = Vector3.Cross (-transform.position, Vector3.up);
 		orthogonalSideOffset.Normalize ();
 		orthogonalSideOffset.Scale (new Vector3 (0.4f, 0.4f, 0.4f));
 		rubberBand.SetPosition (0, transform.position + orthogonalSideOffset);
-		rubberBand.SetPosition (2, transform.position - orthogonalSideOffset);
+		rubberBand.SetPosition (1, transform.position + orthogonalSideOffset/2);
+		rubberBand.SetPosition (2, transform.position - orthogonalSideOffset/2);
+		rubberBand.SetPosition (3, transform.position - orthogonalSideOffset);
 		updateRubberBand ();
 	}
 
 	//update rubber band location
 	void updateRubberBand ()
 	{
-		rubberBand.SetPosition (1, transform.position);
+		rubberBand.SetPosition (1, transform.position + orthogonalSideOffset/2);
+		rubberBand.SetPosition (2, transform.position - orthogonalSideOffset/2);
 	}
 
 
