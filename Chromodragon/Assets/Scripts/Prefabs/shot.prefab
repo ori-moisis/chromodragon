@@ -100,7 +100,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 15200, guid: 0000000000000000f000000000000000, type: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: .400000006
   m_StartWidth: .200000003
   m_EndWidth: .200000003
   m_Colors:
@@ -247,6 +247,10 @@ Prefab:
       propertyPath: effects.Array.data[1]
       value: 
       objectReference: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Time
+      value: .400000006
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 157558}
