@@ -43,6 +43,8 @@ public class Manager : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
+        Vector3 positionFix = new Vector3(0, -2, 0);
+
 		if (instance == null) {
 			instance = this;
 		}
@@ -51,12 +53,12 @@ public class Manager : MonoBehaviour
 		{
 			Vector3 pos = Quaternion.Euler(0, 120 * (PhotonNetwork.player.ID - 1), 0) * Camera.main.transform.position;
 			Camera.main.transform.position = pos;
-			Camera.main.transform.rotation = Quaternion.LookRotation(-Camera.main.transform.position, Vector3.up);
+            Camera.main.transform.rotation = Quaternion.LookRotation(positionFix - Camera.main.transform.position, Vector3.up);
 			setCurrentTurnImgColor(true);
 		}
         else
         {
-            Camera.main.transform.rotation = Quaternion.LookRotation(-Camera.main.transform.position, Vector3.up);
+            Camera.main.transform.rotation = Quaternion.LookRotation(positionFix  - Camera.main.transform.position, Vector3.up);
         }
 		nextBallsWidgetScript = nextBallsWidget.GetComponent<NextBallsWidget> ();
         nextShots = new Shot.ShotParams[3];
