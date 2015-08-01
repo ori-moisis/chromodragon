@@ -17,7 +17,7 @@ public class Manager : MonoBehaviour
 	public Slider purpleScoreSlider;
 	public Slider orangeScoreSlider;
 
-    public int numTurns = 20;
+    public int numTurns = 100;
     public Text turnsText;
 
     public Image[] turnImages;
@@ -70,7 +70,7 @@ public class Manager : MonoBehaviour
             nextShots[i] = new Shot.ShotParams();
         }
 
-        turnsText.text = string.Format("Turns Remaining: {0}", numTurns);
+        turnsText.text = string.Format("{0}", numTurns);
 	}
 
 	
