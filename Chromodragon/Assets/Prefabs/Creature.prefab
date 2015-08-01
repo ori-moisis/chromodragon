@@ -159,13 +159,9 @@ MonoBehaviour:
   currentColor: 0
   shotPrefab: {fileID: 157558, guid: 1603bed6426c9924a83100c2506b8a89, type: 2}
   iShoot: 0
-  bodyRenderer: {fileID: 21279364}
-  eyesRenderer: {fileID: 21243744}
-  amountToSpit: 3
-  spitAngle: 45
+  spitAngle: -45
   spitDirections: 6
   muzzleOffset: .5
-  spitHeight: 100
   spitSpeed: 4
 --- !u!135 &13555230
 SphereCollider:
@@ -177,7 +173,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .200000003
+  m_Radius: .300000012
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &21243744
 SpriteRenderer:
@@ -244,7 +240,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Radius
-      value: .200000003
+      value: .300000012
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: amountToSpit
@@ -260,7 +256,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: spitAngle
-      value: 45
+      value: -45
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: spitDirections

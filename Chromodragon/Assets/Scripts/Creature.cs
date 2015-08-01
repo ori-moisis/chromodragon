@@ -52,10 +52,10 @@ public class Creature : MonoBehaviour
 	private void CalculateSpitDirections ()
 	{
 		spitDirectionVectors = new List<Vector3> ();
-		Vector3 blah = Quaternion.Euler (0, 0, -spitAngle) * new Vector3 (1, 0, 0);
+		Vector3 direction = Quaternion.Euler (0, 0, -spitAngle) * new Vector3 (1, 0, 0);
 		for (int i = 0; i < spitDirections; i++) {
-			spitDirectionVectors.Add (new Vector3 (blah.x, blah.y, blah.z));
-			blah = Quaternion.Euler (0, 360 / spitDirections, 0) * blah;
+			spitDirectionVectors.Add (direction);
+			direction = Quaternion.Euler (0, 360 / spitDirections, 0) * direction;
 		}
 	}
 
