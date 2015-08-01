@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - shot
+  - Fire
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - 
   - Shots
   - Baskets
-  - 
+  - Background
   - 
   - 
   - 
@@ -39,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1294250047
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

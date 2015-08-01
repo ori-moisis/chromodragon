@@ -19,6 +19,11 @@ public class Slingshot : Photon.PunBehaviour
 		photonView = GetComponent<PhotonView> ();
 		calibrateRubberBand ();
 		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
+        if (! photonView.isMine)
+        {
+            this.transform.parent.GetComponent<Renderer>().enabled = false;
+            GetComponentInParent<Renderer>().enabled = false;
+        }
 	}
 	
 	// Update is called once per frame
@@ -133,6 +138,7 @@ public class Slingshot : Photon.PunBehaviour
 		rubberBand = GetComponentInParent<LineRenderer> ();
 		var orthogonalSideOffset = Vector3.Cross (-transform.position, Vector3.up);
 		orthogonalSideOffset.Normalize ();
+        orthogonalSideOffset.Scale(new Vector3(0.4f, 0.4f, 0.4f));
 		rubberBand.SetPosition (0, transform.position + orthogonalSideOffset);
 		rubberBand.SetPosition (2, transform.position - orthogonalSideOffset);
 		updateRubberBand ();
