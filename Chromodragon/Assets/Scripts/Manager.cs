@@ -37,6 +37,10 @@ public class Manager : MonoBehaviour
 	public int nextShotIndex;
 	public Shot.ShotParams[] nextShots;
 
+	public GameObject winningAnimation;
+	public GUIText winningText;
+	bool isFinished = false;
+
 	// Map hexagon-cube coordinates to creatures:
 	Creature[, ,] coordToCreature;
 
@@ -138,12 +142,9 @@ public class Manager : MonoBehaviour
     public void updateTurn()
     {
         --numTurns;
-        if (numTurns == 0)
-        {
+		checkFinish ();
 
-        }
-
-        turnsText.text = string.Format("Turns Remaining: {0}", numTurns);
+        turnsText.text = string.Format("{0}", numTurns);
 
         setCurrentTurnImgColor(false);
         currentTurn = (currentTurn + 1) % PhotonNetwork.playerList.Length;
@@ -233,5 +234,35 @@ public class Manager : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void checkFinish(){
+		print ("check finish\tturns " + numTurns + "\tpurple " + numPurple
+		       + "\tgreen " + numGreen + "\torange " + numOrange);
+		if (numTurns <= 0)
+		{
+			if(numGreen > numOrange && numGreen > numPurple) //green win
+				finish(GameColors.Green);
+			if(numPurple > numOrange && numPurple > numGreen) //purple win
+				finish(GameColors.Purple);
+			if(numOrange > numPurple && numOrange > numGreen) //orange win
+				finish(GameColors.Orange);
+		}
+	}
+	
+	//called when game ends
+	void finish(GameColors winningColor) {
+		isFinished = true;
+
+		//fireworks
+		for (int i = 0; i < 3; i++) {
+			GameObject winEffect = Instantiate (winningAnimation);
+			winEffect.transform.position = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 1);
+		}
+		
+		//text and continue button
+		winningText.text = (winningColor.ToString() + " wins!");
+		
+		
 	}
 }
