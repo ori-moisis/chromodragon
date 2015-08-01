@@ -9,6 +9,7 @@ public class Shot : MonoBehaviour
 	private SphereCollider collider;
 	private SpriteRenderer spriteRenderer;
 	private Vector3 startingPosition;
+	public GameObject[] effects;
 
 	public float yVelocity;
 
@@ -17,7 +18,8 @@ public class Shot : MonoBehaviour
 	{
 		ColorShot,
         WhiteShot,
-        InstantBlech
+        InstantBlech,
+		BombShot
 	}
 
 
@@ -30,6 +32,8 @@ public class Shot : MonoBehaviour
 		public ShotTypes type;
 		public GameColors color;
 		public int timeToLive;
+
+
 
 		public ShotParams ()
 		{
@@ -60,6 +64,7 @@ public class Shot : MonoBehaviour
             {
                 timeToLive = 2;
             }
+
 		}
 
 		public ShotParams (ShotTypes type, GameColors color, int timeToLive)
@@ -76,10 +81,10 @@ public class Shot : MonoBehaviour
                 case ShotTypes.ColorShot:
                     return this.color.GetColor();
                 case ShotTypes.InstantBlech:
-                    {
-                        Color col = this.color.GetColor();
-                        return Color.Lerp(col, Color.black, 0.4f);
-                    }
+                    Color col = this.color.GetColor();
+                    return Color.Lerp(col, Color.black, 0.4f); 
+				case ShotTypes.BombShot:
+					return Color.black;
                 case ShotTypes.WhiteShot:
                     return GameColors.White.GetColor();
                 default:
@@ -103,12 +108,23 @@ public class Shot : MonoBehaviour
         shotTypeWeights[ShotTypes.ColorShot] = 6;
         shotTypeWeights[ShotTypes.WhiteShot] = 1;
         shotTypeWeights[ShotTypes.InstantBlech] = 1;
+		shotTypeWeights[ShotTypes.BombShot] = 1;
 	}
 
 	public void InitShot (ShotParams shotParams)
 	{
 		this.shotParams = shotParams;
         this.SetColor(this.shotParams.GetColor());
+
+
+		//effects
+		if(shotParams.type == ShotTypes.BombShot)
+		{
+			//spriteRenderer.enabled = false;
+			GameObject effect = Instantiate(effects[0]);
+			effect.transform.position = transform.position;
+			effect.transform.parent = transform;
+		}
 	}
 
 	private void SetColor (Color color)
@@ -149,6 +165,11 @@ public class Shot : MonoBehaviour
 
 	public void hit (GameObject creature)
 	{
+		if (shotParams.type == ShotTypes.BombShot) {
+			GameObject effect = Instantiate (effects [1]);
+			effect.transform.position = transform.position;
+			effect.transform.parent = transform; //this is to remove object eventually
+		}
 		spriteRenderer.enabled = false;
 		Destroy (rigidBody);
 		//Destroy (gameObject);
