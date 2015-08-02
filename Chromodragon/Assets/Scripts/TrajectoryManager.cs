@@ -27,7 +27,6 @@ public class TrajectoryManager : MonoBehaviour {
 	public void PlotTrajectory (Vector3 start, Vector3 velocity, Shot.ShotParams shotParams) {
 		if (Vector3.Distance (velocity, lastVelocity) > redrawThreshhold) {
 			lastVelocity = velocity;
-			Vector3 prev = start;
 
 			trajectory.SetPosition(0, start);
 			trajectory.SetPosition(1, start + (velocity * directionIndecatorLengthMultiplier));

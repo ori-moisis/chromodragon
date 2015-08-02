@@ -10,10 +10,9 @@ public class SlingshotGenerator : MonoBehaviour {
 	void Start () {
         if (PhotonNetwork.inRoom)
         {
-            Vector3 pos = Quaternion.Euler(0, 120 * (PhotonNetwork.player.ID - 1), 0) * slingshotPos;
+            Vector3 pos = Quaternion.Euler(0, 120 * Manager.instance.playerId, 0) * slingshotPos;
             Quaternion rotation = Quaternion.LookRotation(-pos, Vector3.up);
-            GameObject sling = (GameObject)PhotonNetwork.Instantiate(slingshotName, pos, rotation, 0);
-            sling.GetComponentInChildren<Slingshot>().slingId = PhotonNetwork.player.ID;
+            PhotonNetwork.Instantiate(slingshotName, pos, rotation, 0);
         }
         else
         {
@@ -21,8 +20,7 @@ public class SlingshotGenerator : MonoBehaviour {
             for (int i = 0; i < 3; ++i)
             {
                 Vector3 pos = Quaternion.Euler(0, 120 * i, 0) * slingshotPos;
-                GameObject sling = (GameObject)Instantiate(sligshot, pos, Quaternion.LookRotation(-pos, Vector3.up));
-                sling.GetComponentInChildren<Slingshot>().slingId = curId;
+                Instantiate(sligshot, pos, Quaternion.LookRotation(-pos, Vector3.up));
                 ++curId;
             }
         }

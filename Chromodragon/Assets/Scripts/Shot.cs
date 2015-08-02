@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Shot : MonoBehaviour
 {
 	private Rigidbody rigidBody;
-	private SphereCollider collider;
+	private SphereCollider shotCollider;
 	private SpriteRenderer spriteRenderer;
 	private Vector3 startingPosition;
 	public GameObject[] effects;
@@ -101,7 +101,7 @@ public class Shot : MonoBehaviour
 	protected void Awake ()
 	{
 		rigidBody = GetComponent<Rigidbody> ();
-		collider = GetComponent<SphereCollider> ();
+		shotCollider = GetComponent<SphereCollider> ();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer> ();
 		startingPosition = transform.position;
 
@@ -150,8 +150,8 @@ public class Shot : MonoBehaviour
 //			Debug.Log ("Velocity: " + rigidBody.velocity.y);
 			yVelocity = rigidBody.velocity.y;
 			rigidBody.AddForce (-Vector3.up * gravityAddition);
-			if (collider.enabled == false && rigidBody.velocity.y < 0) {
-				collider.enabled = true;
+			if (shotCollider.enabled == false && rigidBody.velocity.y < 0) {
+				shotCollider.enabled = true;
 				Debug.Log ("Enabling collider");
 			}
 		} else {

@@ -8,10 +8,9 @@ public class Slingshot : Photon.PunBehaviour
 	public float velocityMultiplier; //how strong to shot compared to pull
 	public GameObject shot; //what to shoot
 	public bool debugPrints = false;
-	public int slingId;
 	public GameObject ballToShootHint;
 	SpriteRenderer ballToSoohtHintRenderer;
-	PhotonView photonView;
+	//PhotonView photonView;
 	LineRenderer rubberBand;
 	TrajectoryManager trajectoryMngr;
 	Vector3 orthogonalSideOffset;
@@ -19,7 +18,7 @@ public class Slingshot : Photon.PunBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		photonView = GetComponent<PhotonView> ();
+		//photonView = GetComponent<PhotonView> ();
 		calibrateRubberBand ();
 		trajectoryMngr = GetComponentInChildren<TrajectoryManager> ();
 		if (PhotonNetwork.inRoom && ! photonView.isMine) {

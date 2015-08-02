@@ -35,6 +35,7 @@ public class Manager : MonoBehaviour
 
 	public int hexRadius = 3;
 	public int currentTurn = 0;
+    public int playerId = -1;
 
 	public int nextShotIndex;
 	public Shot.ShotParams[] nextShots;
@@ -53,22 +54,18 @@ public class Manager : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        playerId = (int)PhotonNetwork.player.customProperties["playerId"];
         Vector3 positionFix = new Vector3(0, -2, 0);
-
         endPanel.SetActive(false);
-
-		if (instance == null) {
-			instance = this;
-		}
 		initWorld (hexRadius);
 		if (PhotonNetwork.inRoom)
 		{
-            if (PhotonNetwork.player.ID > PhotonNetwork.playerList.Length)
-            {
-                this.ReturnToLobby();
-                return;
-            }
-			Vector3 pos = Quaternion.Euler(0, 120 * (PhotonNetwork.player.ID - 1), 0) * Camera.main.transform.position;
+			Vector3 pos = Quaternion.Euler(0, 120 * this.playerId, 0) * Camera.main.transform.position;
 			Camera.main.transform.position = pos;
             Camera.main.transform.rotation = Quaternion.LookRotation(positionFix - Camera.main.transform.position, Vector3.up);
 			setCurrentTurnImgColor(true);
@@ -91,23 +88,6 @@ public class Manager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		//any key on win
-		if (isFinished){
-			bool messageUpdated = false;
-			if(framesDelayOnFinish <= 0) {
-				if(!messageUpdated){
-					messageUpdated = true;
-				}
-				if(Input.anyKey){
-					print("quitting");
-					Debug.Log ("A key or mouse click has been detected");
-					Application.Quit();
-					//PhotonNetwork.LoadLevel("Lobby");
-				}
-			}
-			framesDelayOnFinish--;
-		}
-		
 	}
 
 
@@ -142,7 +122,7 @@ public class Manager : MonoBehaviour
 
     int currentTurnIndex()
     {
-        return (((PhotonNetwork.player.ID - currentTurn - 1) % 3) + 3) % 3;
+        return (((this.playerId - currentTurn) % 3) + 3) % 3;
     }
 
     void setCurrentTurnImgColor(bool isSet)
@@ -188,7 +168,7 @@ public class Manager : MonoBehaviour
 
     public bool isMyTurn()
     {
-        return ((currentTurn + 1) == PhotonNetwork.player.ID && !isFinished);
+        return (currentTurn == this.playerId && !isFinished);
     }
 
 	public void updateScore (GameColors prevColor, GameColors newColor)
