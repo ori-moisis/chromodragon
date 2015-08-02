@@ -59,12 +59,12 @@ public class Manager : MonoBehaviour
             instance = this;
         }
 
-        playerId = (int)PhotonNetwork.player.customProperties["playerId"];
         Vector3 positionFix = new Vector3(0, -2, 0);
         endPanel.SetActive(false);
 		initWorld (hexRadius);
 		if (PhotonNetwork.inRoom)
 		{
+            playerId = (int)PhotonNetwork.player.customProperties["playerId"];
 			Vector3 pos = Quaternion.Euler(0, 120 * this.playerId, 0) * Camera.main.transform.position;
 			Camera.main.transform.position = pos;
             Camera.main.transform.rotation = Quaternion.LookRotation(positionFix - Camera.main.transform.position, Vector3.up);
@@ -72,6 +72,7 @@ public class Manager : MonoBehaviour
 		}
         else
         {
+            playerId = 0;
             Camera.main.transform.rotation = Quaternion.LookRotation(positionFix  - Camera.main.transform.position, Vector3.up);
         }
 		nextBallsWidgetScript = nextBallsWidget.GetComponent<NextBallsWidget> ();

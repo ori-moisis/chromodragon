@@ -26,24 +26,26 @@ public class Shot : MonoBehaviour
     static Dictionary<ShotTypes, float> shotTypeWeights = new Dictionary<ShotTypes, float>(); // REMEMBER TO FILL THIS FOR EVERY NEW TYPE
 	static GameColors[] possibleColors = new GameColors[] { GameColors.Red, GameColors.Yellow, GameColors.Blue };
 
-	[Serializable]
 	public class ShotParams
 	{
 		public ShotTypes type;
 		public GameColors color;
 		public int timeToLive;
-
-
+        static System.Random rand = null;
 
 		public ShotParams ()
 		{
+            if (rand == null)
+            {
+                rand = new System.Random();
+            }
             float sumW = 0;
             foreach (var item in shotTypeWeights)
             {
                 type = item.Key;
                 sumW += item.Value;
             }
-            int typeIndex = (int)(UnityEngine.Random.value * sumW);
+            int typeIndex = (int)(rand.NextDouble() * sumW);
             float currW = 0;
             foreach (var item in shotTypeWeights)
             {
