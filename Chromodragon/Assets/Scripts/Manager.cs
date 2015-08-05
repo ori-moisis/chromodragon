@@ -23,6 +23,12 @@ public class Manager : MonoBehaviour
     public Text turnsText;
 
     public Image[] turnImages;
+
+    public Image[] myFlag;
+    public Image[] opponentFlags;
+    Image currentFlag;
+    float currentFlagRotation;
+
 	public GameColors[] targetColors;
 	public GameObject nextBallsWidget;
 	NextBallsWidget nextBallsWidgetScript;
@@ -68,13 +74,14 @@ public class Manager : MonoBehaviour
 			Vector3 pos = Quaternion.Euler(0, 120 * this.playerId, 0) * Camera.main.transform.position;
 			Camera.main.transform.position = pos;
             Camera.main.transform.rotation = Quaternion.LookRotation(positionFix - Camera.main.transform.position, Vector3.up);
-			setCurrentTurnImgColor(true);
 		}
         else
         {
             playerId = 0;
             Camera.main.transform.rotation = Quaternion.LookRotation(positionFix  - Camera.main.transform.position, Vector3.up);
         }
+        this.setFlagColors();
+        this.setCurrentFlag();
 		nextBallsWidgetScript = nextBallsWidget.GetComponent<NextBallsWidget> ();
         nextShots = new Shot.ShotParams[3];
         for (int i = 0; i < nextShots.Length; ++i)
@@ -89,6 +96,9 @@ public class Manager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+        float rot = Time.deltaTime * 50;
+        currentFlagRotation += rot;
+        this.currentFlag.transform.Rotate(new Vector3(0, 0, 1), rot);
 	}
 
 
@@ -126,24 +136,37 @@ public class Manager : MonoBehaviour
         return (((this.playerId - currentTurn) % 3) + 3) % 3;
     }
 
-    void setCurrentTurnImgColor(bool isSet)
+    void setCurrentFlag()
     {
-        if (PhotonNetwork.inRoom)
+        if (this.currentFlag != null)
         {
-            GameColors[] primaries = this.targetColors[currentTurn].getPrimaries();
-
-            Color newColor = ColorsManager.colorMap[this.targetColors[currentTurn]];
-            Color primary1 = ColorsManager.colorMap[primaries[0]];
-            Color primary2 = ColorsManager.colorMap[primaries[1]];
-
-            newColor.a = isSet ? 10 : 0;
-            primary1.a = isSet ? 10 : 0;
-            primary2.a = isSet ? 10 : 0;
-
-            this.turnImages[currentTurnIndex()].color = newColor;
-            this.turnImages[3].color = primary1;
-            this.turnImages[4].color = primary2;
+            this.currentFlag.transform.Rotate(new Vector3(0, 0, 1), -this.currentFlagRotation);
+            this.currentFlagRotation = 0;
         }
+        int numPlayers = PhotonNetwork.playerList.Length;
+        switch ((this.currentTurn - this.playerId + numPlayers) % numPlayers)
+        {
+            case 0:
+                this.currentFlag = this.myFlag[0];
+                break;
+            case 1:
+                this.currentFlag = this.opponentFlags[1];
+                break;
+            case 2:
+                this.currentFlag = this.opponentFlags[0];
+                break;
+        }
+    }
+
+    void setFlagColors()
+    {
+        GameColors myColor = this.targetColors[this.playerId];
+        this.myFlag[0].color = myColor.GetColor();
+        this.myFlag[1].color = myColor.getPrimaries()[0].GetColor();
+        this.myFlag[2].color = myColor.getPrimaries()[1].GetColor();
+
+        this.opponentFlags[1].color = this.targetColors[(this.playerId + 1) % this.targetColors.Length].GetColor();
+        this.opponentFlags[0].color = this.targetColors[(this.playerId + 2) % this.targetColors.Length].GetColor();
     }
 
     public void ReturnToLobby()
@@ -162,9 +185,8 @@ public class Manager : MonoBehaviour
 
         turnsText.text = string.Format("{0}", numTurns);
 
-        setCurrentTurnImgColor(false);
         currentTurn = (currentTurn + 1) % PhotonNetwork.playerList.Length;
-        setCurrentTurnImgColor(true);
+        this.setCurrentFlag();
     }
 
     public bool isMyTurn()

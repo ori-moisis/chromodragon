@@ -10,6 +10,7 @@ public class Lobby : MonoBehaviour
     {
         JoinRoom,
         CreateRoom,
+        StartSinglePlayer,
         Quit,
         None
     }
@@ -109,6 +110,9 @@ public class Lobby : MonoBehaviour
                     {
                         PhotonNetwork.JoinRandomRoom();
                     }
+                    break;
+                case Action.StartSinglePlayer:
+                    Application.LoadLevel("Game");
                     break;
             }
         }
@@ -213,10 +217,7 @@ public class Lobby : MonoBehaviour
 
 	public void SinglePlayer ()
 	{
-        if (PhotonNetwork.inRoom)
-        {
-            PhotonNetwork.LeaveRoom();
-        }
-		Application.LoadLevel ("Game");
+        this.currentAction = Action.StartSinglePlayer;
+        this.DoAction();
 	}
 }
